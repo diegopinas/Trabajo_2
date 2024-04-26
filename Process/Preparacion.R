@@ -143,6 +143,13 @@ sjt.xtab(proc_data$econ_act,# economía actual
 sjt.xtab(proc_data$inmg_econ,#economia: inmigración 
          proc_data$inv_ext, #Beneficio inversión extrenjera
          encoding = "UTF-8")
+# descriptivos------------------------------------------------------------
+sjmisc::descr(proc_data)
+sjmisc::descr(data,
+              show = c("label","range", "mean", "sd", "NA.prc", "n"))%>% # Selecciona estadísticos
+  kable(.,"markdown") # Esto es para que se vea bien en quarto
+
+
 
 # Grafico ----------------------------------------------------------------
 

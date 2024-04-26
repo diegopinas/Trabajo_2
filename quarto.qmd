@@ -32,6 +32,7 @@ para el presente trabajo se utilizarán las variables de latinobarometro tales c
 satisfacción con la economía, inmigracion para la economía
 
 ```{r Variables a utilizar, echo=FALSE}
+load(proc_data)
 pacman::p_load(sjlabelled,
                dplyr, #Manipulacion de datos
               stargazer, #Tablas
