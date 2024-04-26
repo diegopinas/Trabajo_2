@@ -3,12 +3,111 @@ title: "Trabajo 2"
 author: "Diego Martínez"
 format: html
 editor: visual
+bibliography: Tesis-riesgo-político.bib
+link-citations: true 
 ---
+
+# **El riesgo politico en Chile y sus posibles impacto en las inversiones extranjeras.**
+
+# Por: Diego Martinez
 
 ## **Introducción:**
 
 Los trabajos sobre riesgo politico son propios de los profesionales de negocios internacionales (ver [Jeffrey Simon and Simon 1984](#ref-jeffreysimonTheoreticalPerspectivePolitical1984)), sin embargo es posible encontrar trabajos que aborden el riesgo politico desde la ciencia política este es el caso del estudio de Johannes Leitner (ver [Johannes Leitner and H. Meissner 2016](#ref-johannesleitner2016)) que define como el riesgo político como un concepto que cubre aquellos factores de riesgo para las empresas internacionales que están arraigados en el entorno político e institucional de un país pero que tienen consecuencias inmediatas en el desempeño de la empresa. En este trabajo aborda el nuevo panorama politico en el que se encuentran insertas las empresas, asi como la importancia del Estado y como su marco institucional influye en la toma de decisiones de empresas he inversionistas extranjeros.
 
-Para demostrar la importancia de los marcos intitucionales y las decisiones politicas se expondra el caso de las politicas macroprudenciales de la UE (ver [Elias Bengtsson and Bengtsson 2020](#ref-eliasbengtssonMacroprudentialPolicyEU2020)) asi mismo haran estudios comparativos sobre el mercado de la energia \[ver\@tamarajoysomers-cox2014\] que servira de conector para ver como paises latinoamericanos pueden sacar provecho de sus ventajas comparativas con minerales como el litio o el cobre para la transición energética global.
+Para demostrar la importancia de los marcos intitucionales y las decisiones politicas se expondra el caso de las politicas macroprudenciales de la UE (ver [Elias Bengtsson and Bengtsson 2020](#ref-eliasbengtssonMacroprudentialPolicyEU2020)) asi mismo haran estudios comparativos sobre el mercado de la energia (ver @tamarajoysomers-cox2014\] que servira de conector para ver como paises latinoamericanos pueden sacar provecho de sus ventajas comparativas con minerales como el litio o el cobre para la transición energética global.
 
 Finalmente todo esto se hará con el motivo de comprender el riesgo politico en Chile y tratar de ver posibles caminos de solucion para los riesgos que amenazan a la nación: Como lo son la corrupción, crimen organizado y el clima de negocios (esto segun el ultimo informe de riesgo politico en America Latina) todos factores que imposibilitan el desarrollo economico y las ventajas comparativas que podria tener Chile en la transición energética mundial. Se espera que ante un marco regulatorio bien definido y que en paises donde la corrupcion sea menor el riesgo politico en consecuencia tambien lo sea.
+
+## Analisis descriptivo de variables
+
+para el presente trabajo se utilizarán las variables de latinobarometro tales como:
+
+satisfacción con la economía, inmigracion para la economía
+
+```{r Variables a utilizar, echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2) # Para la mayoría de los gráficos
+
+sjmisc::descr(proc_data,
+      show = c("label","range", "mean", "sd", "n"))%>% # Selecciona estadísticos
+      kable(.,"markdown") # Esto es para que se vea bien en quarto
+```
+
+texto
+
+```{r Estadisticos descriptivos, echo=FALSE}
+view(dfSummary(proc_data, headings=FALSE))
+```
+
+texto
+
+```{r echo=FALSE}
+install.packages("sjPlot")
+library("sjPlot")
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2) # Para la mayoría de los gráficos
+library("pacman")
+
+
+rm(list=ls())
+options(scipen=999)
+
+load("Output/Latinobar_Chile_2020.RData")
+
+# Tabla -------------------------------------------------------------------
+
+sjPlot::sjt.xtab(proc_data$econ_act,
+         proc_data$fun_econ,
+         encoding = "UTF-8")
+```
+
+texto
+
+```{r}
+
+# Grafico de puntos
+ggplot(proc_data, aes(x = as.factor(idenpa), y = econ_act, fill = idenpa)) +
+  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
+  labs(x = "Chile", y = "Economia Actual") +
+  theme_classic()
+```
+
+texto
+
+```{r percpción Inversión extenjera, echo=FALSE}
+#grafico de personas a favor de la inversión extranjera
+proc_data %>% ggplot(aes(x = inv_ext)) + 
+  geom_bar(fill = "coral")+
+  labs(title = "Beneficios: Inversión extranjera",
+       x = "inversión extranjera",
+       y = "Frecuencia")
+```
+
+texto
+
+```{r Migración economía, echo=FALSE}
+proc_data %>% ggplot(aes(x = inmg_econ)) + 
+  geom_bar(fill = "coral")+
+  labs(title = "¿los inmigrantes son buenos para la economia del pais?",
+       x = "inmigración economía ",
+       y = "Frecuencia")
+```
+
+Este gráfico demuestra el grado de satisfacción con respecto a la afirmación

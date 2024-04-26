@@ -127,11 +127,22 @@ save(proc_data, file = "Output/Latinobar_Chile_2020.RData")
 
 # Tabla -------------------------------------------------------------------
 
-sjt.xtab(proc_data$econ_act,
-         proc_data$fun_econ,
+sjt.xtab(proc_data$econ_act,# economía actual 
+         proc_data$fun_econ, #satisfacción con el funcionamiento de la economía
          encoding = "UTF-8")
+# 1. Muy satisfecho
+#2. Más bien satisfecho
+#3. No muy satisfecho
+#4. Nada satisfecho
+#5. No sabe, se eliminaron
+#6. No responde, se eliminaron 
+#
+#Del grafico se puede deducir que la mayoria de las personas durante el 2020
+#se encontraron nada satisfechas
 
-
+sjt.xtab(proc_data$inmg_econ,#economia: inmigración 
+         proc_data$inv_ext, #Beneficio inversión extrenjera
+         encoding = "UTF-8")
 
 # Grafico ----------------------------------------------------------------
 
@@ -139,6 +150,26 @@ sjt.xtab(proc_data$econ_act,
 ggplot(proc_data, aes(x = as.factor(idenpa), y = econ_act, fill = idenpa)) +
   geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
   labs(x = "Chile", y = "Economia Actual") +
+  theme_classic()
+
+ggplot(proc_data, aes(x = inmg_econ, y = inv_ext, fill = idenpa)) +
+  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
+  labs(x = "Inmigración economía", y = "Inversión Extranjera") +
+  theme_classic()
+
+ggplot(proc_data, aes(x = inv_ext, y = inmg_econ, fill = idenpa)) +
+  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
+  labs(x = "Inversión extranjera", y = "Inmigración economía") +
+  theme_classic()
+
+ggplot(proc_data, aes(x = as.factor(idenpa), y = inmg_econ, fill = idenpa)) +
+  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
+  labs(x = "Chile", y = "Inmigración economía") +
+  theme_classic()
+
+ggplot(proc_data, aes(x = as.factor(idenpa), y = econ_act, fill = idenpa)) +
+  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
+  labs(x = "Chile", y = "Economia actual") +
   theme_classic()
 
 
