@@ -15,9 +15,15 @@ link-citations: true
 
 Los trabajos sobre riesgo politico son propios de los profesionales de negocios internacionales (ver [Jeffrey Simon and Simon 1984](#ref-jeffreysimonTheoreticalPerspectivePolitical1984)), sin embargo es posible encontrar trabajos que aborden el riesgo politico desde la ciencia política este es el caso del estudio de Johannes Leitner (ver [Johannes Leitner and H. Meissner 2016](#ref-johannesleitner2016)) que define como el riesgo político como un concepto que cubre aquellos factores de riesgo para las empresas internacionales que están arraigados en el entorno político e institucional de un país pero que tienen consecuencias inmediatas en el desempeño de la empresa. En este trabajo aborda el nuevo panorama politico en el que se encuentran insertas las empresas, asi como la importancia del Estado y como su marco institucional influye en la toma de decisiones de empresas he inversionistas extranjeros.
 
-Para demostrar la importancia de los marcos intitucionales y las decisiones politicas se expondra el caso de las politicas macroprudenciales de la UE (ver [Elias Bengtsson and Bengtsson 2020](#ref-eliasbengtssonMacroprudentialPolicyEU2020)) asi mismo haran estudios comparativos sobre el mercado de la energia (ver @tamarajoysomers-cox2014\] que servira de conector para ver como paises latinoamericanos pueden sacar provecho de sus ventajas comparativas con minerales como el litio o el cobre para la transición energética global.
+Para demostrar la importancia de los marcos intitucionales y las decisiones politicas se expondra el caso de las politicas macroprudenciales de la UE (ver [Elias Bengtsson and Bengtsson 2020](#ref-eliasbengtssonMacroprudentialPolicyEU2020))
 
 Finalmente todo esto se hará con el motivo de comprender el riesgo politico en Chile y tratar de ver posibles caminos de solucion para los riesgos que amenazan a la nación: Como lo son la corrupción, crimen organizado y el clima de negocios (esto segun el ultimo informe de riesgo politico en America Latina) todos factores que imposibilitan el desarrollo economico y las ventajas comparativas que podria tener Chile en la transición energética mundial. Se espera que ante un marco regulatorio bien definido y que en paises donde la corrupcion sea menor el riesgo politico en consecuencia tambien lo sea.
+
+El riesgo político está comprendido por los indicadores del riesgo siguientes: expectativas económicas vs. realidad; fracasos de la planificación económica; dirección política; conflicto externo; corrupción en el gobierno; injerencia del ejército en política; influencia de la religión organizada en política; ley y tradición de orden; tensiones raciales y de nacionalidad; terrorismo político; guerra civil; desarrollo de partidos políticos; y calidad de la burocracia.
+
+En el presente trabajo se realizara un analisis a variables de percepción ciudadana que guardan relación con la visión que tienen los ciudadanos con respecto al funcionamiento de la economia del pais, la percepcion economica de los inmigrantes asi como su vision con respecto a la inversion extranjera.
+
+Lo anterior con la finalidad de descubrir cuales son las expectativas economicas actuales versus como es realmente
 
 ## Analisis descriptivo de variables
 
