@@ -49,6 +49,12 @@ find_var(data = Latinobarometro_2020_Esp, "p5stgbs")
 # para el desarrollo económico del país o no sabe lo suficiente para opinar?
 find_var(data = Latinobarometro_2020_Esp, "p28st")
 
+#¿ diria usted que esta satisfecho con el funcionamiento de la democracia en el pais?
+find_var(data= Latinobarometro_2020_Esp,"P11STGBS.A")
+
+# No me importaria que un gobiernon no democratico llegara al poder       
+find_var(data= Latinobarometro_2020_Esp,"p22stm.b")
+
 # Pais
 find_var(data = Latinobarometro_2020_Esp, "idenpa") #chile es 152
 
@@ -63,8 +69,10 @@ proc_data <- Latinobarometro_2020_Esp %>% select(
                     p39n.a, # Los inmigrantes son buenos para la economía del país   
                     p4stgbs, # Situación económica actual del país
                     p5stgbs, # Situación económica del país respecto al pasado año
-                    p28st,   #inversión extranjera beneficiosa
-                    idenpa) # pais
+                    p28st, # inversión extranjera beneficiosa
+                    P11STGBS.A,# Satisfecho con el funcionamiento de la democracia
+                    p22stm.b,# No me importaria que un gobiernon no democratico llegara al poder
+                    idenpa)# pais
 
 names(proc_data) #comprobar variables seleccionadas
 get_label(proc_data) # se comprueba que no tienen etiquetas la variables
@@ -83,6 +91,8 @@ frq(proc_data$p39n.a) # -5 para NA
 frq(proc_data$p4stgbs) # -2 y -1 para NA
 frq(proc_data$p5stgbs) # -1 para NA
 frq(proc_data$p28st) # -2 y -1 para NA
+frq(proc_data$P11STGBS.A)#-2 y -1 para NA
+frq(proc_data$p22stm.b)# -2 para NA
 
 #Transformación de -5, -2 y -1 a NA para todas las variables
 proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
@@ -95,6 +105,8 @@ proc_data <- proc_data %>%
          "econ_act" = p4stgbs, #economia actual pais
          "econ_anio_pas" = p5stgbs, # economia respecto año pasado
          "inv_ext" = p28st, # inversion extranjera beneficiosa
+         "fun_demo"= P11STGBS.A, # satisfaccion func. democracia
+         "gob_nodemo"= p22stm.b, # No me importaria que un gobiernon no democratico llegara al poder
          )
 
 # Re-etiquetar Variables --------------------------------------------------
@@ -115,6 +127,11 @@ get_label(proc_data$econ_anio_pas)
 proc_data$inv_ext <- set_label(x = proc_data$inv_ext, label = "Beneficio: Inversión Extranjera")
 get_label(proc_data$inv_ext)
 
+proc_data$fun_demo <- set_label(x = proc_data$fun_demo, label = "Satisfacción funcionamiento: Democracia")
+get_label(proc_data$fun_demo)
+
+proc_data$gob_nodemo <- set_label(x = proc_data$gob_nodemo, label = "Acuerdo/Desacuerdo: gobierno no democratico")
+get_label(proc_data$gob_nodemo)
 View(proc_data)
 
 # Generación de BBDD ------------------------------------------------------
