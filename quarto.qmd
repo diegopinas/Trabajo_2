@@ -34,6 +34,7 @@ Como evidencia que apoya a este trabajo tenemos la investigación de Alejandro A
 Para el siguiente trabajo se utilizaran las siguientes variables extraidas de la base de latinobarometro del año 2020:
 
 ```{r Descriptivo, echo=FALSE}
+rm(list=ls())  
 pacman::p_load(sjlabelled,
                dplyr, #Manipulacion de datos
               stargazer, #Tablas
@@ -45,16 +46,15 @@ pacman::p_load(sjlabelled,
               sessioninfo, # Información de la sesión de trabajo
               ggplot2) # Para la mayoría de los gráficos
 #creacion BB.DD
+load("Output/Latinobar_Chile_2020.Rdata")
+
 proc_data <- as.data.frame(proc_data)
-stargazer(proc_data, type = "text")
-
-save(proc_data, file = "Output/Latinobar_Chile_2020.RData")
-
-
 
 sjmisc::descr(proc_data,
               show = c("label","range", "mean", "sd", "NA.prc", "n"))%>% # Selecciona estadísticos
   kable(.,"markdown") # Esto es para que se vea bien en quarto
+
+
 ```
 
-como podemos ver las variables a utilizar son la satisfaccion con el funcionamiento de la economia en general, percepción de si la migración es buena o no para la economía nacional, percepcion de la economia en la actualidad (Año 2020) , percepción economía del año pasado, beneficio de la inversion extranjera (si o no), satisfacción con el funcionamiento de la democracia
+como podemos ver las variables a utilizar son la satisfaccion con el funcionamiento de la economia en general, percepción de si la migración es buena o no para la economía nacional, percepcion de la economia en la actualidad (Año 2020) , percepción economía del año pasado, beneficio de la inversion extranjera (si o no), satisfacción con el funcionamiento de la democracia y finalmente acuerdo o desacuerdo ante un hipotetico gobierno no democratico. idenpa
