@@ -11,6 +11,9 @@ pacman::p_load(dplyr,
                sjPlot,# esto es para hacer tablas
                ggplot2) 
 
+install.packages("readxl")
+library("readxl")
+
 
 # Ajustar espacio de trabajo ----------------------------------------------
 
@@ -21,6 +24,9 @@ options(scipen=999) # valores sin notación científica
 
 load("Input/data-orig/Latinobarometro_2020_Esp_Rdata_v1_0.RData") #carga de bbdd de manera local
 load("C:/Users/diego/OneDrive/Escritorio/Trabajo_2/Input/data-orig/Latinobarometro_2023_Esp_Rdata_v1_0.RData")
+inversion_extranjera<- read_excel("C:\\Users\\diego\\OneDrive\\Escritorio\\Trabajo_2\\Input\\data-orig\\Inversion_extranjera_neta.xlsx")
+file.choose()
+
 # Examen visual de la bbdd ------------------------------------------------
 View(Latinobarometro_2023_Esp_v1_0) # ver bbdd
 dim(Latinobarometro_2023_Esp_v1_0)  # dimensiones de la bbdd
@@ -70,6 +76,39 @@ find_var(data = Latinobarometro_2023_Esp_v1_0, "idenpa") #chile es 152
 
 # Finalmente se visita documentación de la bbdd para seleccionar variables
 
+#BBDD inversion extranjera------------------------------------------------------
+
+find_var(data = inversion_extranjera,"indicator")
+
+colnames("inversion_extranjera")
+
+dim(inversion_extranjera)
+
+
+#Data procesada Innversion extranjera-------------------------------------------
+
+inversion_extranjera_directa <- inversion_extranjera %>%select(
+  indicator,# variable texto
+  País__ESTANDAR,# variable texto
+  Años__ESTANDAR,# variable numerica 
+  value,#variable numerica 
+  source_id)#Variable de etiqueta año de país
+
+View(inversion_extranjera_directa)
+names(inversion_extranjera_directa)
+
+# Procesamiento de variables inversion extranjera directa----------------------
+
+frq(inversion_extranjera_directa$País__ESTANDAR)
+frq(inversion_extranjera_directa$Años__ESTANDAR)
+frq(inversion_extranjera_directa$value)
+# Renombrar las variables de inversion extranjera directa-----------------------
+inversion_extranjera_directa <- inversion_extranjera_directa %>%
+  rename("idenpa" = pais)
+         
+inversion_extranjera_directa <- inversion_extranjera_directa %>%
+  rename("anos_pais"= Años__ESTANDAR)
+
 
 
 # Data procesada ----------------------------------------------------------
@@ -89,7 +128,6 @@ proc_data <- Latinobarometro_2023_Esp_v1_0 %>% select(
 names(proc_data) #comprobar variables seleccionadas
 get_label(proc_data) # se comprueba que no tienen etiquetas la variables
 
-proc_data <- proc_data %>% filter(idenpa==152) # se recorta a ver chile #no hacer este paso
 #ahora trabajaremos con todos los paises
 #IDENPA Country
 #32.- Argentina
@@ -186,7 +224,52 @@ stargazer(proc_data, type = "text")
 
 save(proc_data, file = "Output")
 
+# Combinacion de BBDD------------------------------------------------------
+proc_data <- inversion_extranjera_directa %>% group_by(idenpa)
+summarise(fun_demo=mean(fun_econ,fun_demo,econ_act,econ_fut,econ_mercado,econ_anio_pas,gob_nodemo,pref_reg,inmg_econ, na.rm= TRUE)
+
+
+
+data <- merge(proc_data,inversion_extranjera_directa,by= "idenpa") #combinamos las BBDD
+
+
+data <- data %>%
+  mutate(idenpa = as.character(idenpa)) %>%
+  mutate(idenpa = case_when(
+    idenpa == "32" ~ "Argentina",
+    idenpa == "68" ~ "Bolivia",
+    idenpa == "76" ~ "Brasil",
+    idenpa == "152" ~ "Chile",
+    idenpa == "170" ~ "Colombia",
+    idenpa == "188" ~ "Costa Rica",
+    idenpa == "214" ~ "Cuba",
+    idenpa == "218" ~ "República Dominicana",
+    idenpa == "222" ~ "Ecuador",
+    idenpa == "320" ~ "El Salvador",
+    idenpa == "340" ~ "Guatemala",
+    idenpa == "484" ~ "Honduras",
+    idenpa == "558" ~ "México",
+    idenpa == "600" ~ "Panamá",
+    idenpa == "604" ~ "Paraguay",
+    idenpa == "858" ~ "Uruguay",
+    idenpa == "862" ~ "Venezuela"))
+data$idenpa <- as.numeric(data$idenpa)
+
+
 # Tabla -------------------------------------------------------------------
+
+#Abrimos la libreria para realizar graficos
+pacman::p_load(dplyr, # Manipulacion datos
+               sjmisc, # Descriptivos
+               sjPlot, # Tablas
+               sjlabelled, #etiquetas
+               kableExtra, #Tablas
+               GGally, # Correlaciones
+               corrplot) # Correlaciones
+
+ 
+
+
 
 sjt.xtab(proc_data$econ_act,# economía actual 
          proc_data$fun_econ, #satisfacción con el funcionamiento de la economía
@@ -249,9 +332,28 @@ ggplot(proc_data, aes(x = econ_act, fill = idenpa)) +
   geom_rug(data = proc_data, aes(x = econ_act, fill = idenpa), sides = "b", alpha = 0.5) +  # Rug plot
   labs(x = "Economia Actual", y = "Densidad") +  # Etiquetas de los ejes
   theme_classic()
+# correlaciones ----------------------------------------------------------------
+#forma 1 de representar correlación entre variables
+M <-cor(proc_data,use = "complete.obs")
+M
 
+#forma dos de representar correlación entre variables
+sjPlot::tab_corr(proc_data, 
+                 triangle = "lower")
+corrplot.mixed(M)
 
+# tercera forma de representar correlación entre variables
+proc_data <- proc_data %>%
+  rowwise() %>%
+  mutate( econ_mercado= sum(c(fun_econ, fun_demo), na.rm = TRUE))
+proc_data <- proc_data %>%
+  rowwise() %>%
+  mutate( inversión= sum(c(fun_econ, fun_demo), na.rm = TRUE))
 
+ggpairs(proc_data)
+
+# Cuarta forma es con el grafico de puntos
+sjPlot::plot_scatter(proc_data,fun_demo ,fun_econ )
 
 
 

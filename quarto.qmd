@@ -104,3 +104,7 @@ proc_data %>% ggplot(aes(x = inmg_econ)) +
 ```
 
 En el siguiente grafico podemos ver la postura de las personas chilenas tienen frente a la pregunta de si los inmigrantes son buenos para la economía del pais. el 2 indica a las personas que estan de acuerdo, mientras que el 3 a las personas que estan en desacuerdo, por lo que podemos notar que las personas mayoritariamente tiene una vision negativa de la inmigración para la economía.
+
+## correlación entre variables
+
+Ahora bien, para analizar el impacto que tienen las variables seleccionadas en la inversión extranjera
