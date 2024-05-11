@@ -107,4 +107,4 @@ En el siguiente grafico podemos ver la postura de las personas chilenas tienen f
 
 ## correlación entre variables
 
-Ahora bien, para analizar el impacto que tienen las variables seleccionadas en la inversión extranjera
+Ahora bien, para analizar el impacto que tienen las variables seleccionadas en la inversión extranjera se utilizara la base de datos de Latinobarometro 2023 y los flujos de inversion extranjera neta segun datos de la cepalstats

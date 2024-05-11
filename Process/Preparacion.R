@@ -9,11 +9,8 @@ pacman::p_load(dplyr,
                stargazer,#
                haven,
                sjPlot,# esto es para hacer tablas
-               ggplot2) 
-
-install.packages("readxl")
-library("readxl")
-
+               ggplot2,
+               readxl) 
 
 # Ajustar espacio de trabajo ----------------------------------------------
 
@@ -22,18 +19,13 @@ options(scipen=999) # valores sin notación científica
 
 # Carga BB_DD -------------------------------------------------------------
 
-load("Input/data-orig/Latinobarometro_2020_Esp_Rdata_v1_0.RData") #carga de bbdd de manera local
-load("C:/Users/diego/OneDrive/Escritorio/Trabajo_2/Input/data-orig/Latinobarometro_2023_Esp_Rdata_v1_0.RData")
-inversion_extranjera<- read_excel("C:\\Users\\diego\\OneDrive\\Escritorio\\Trabajo_2\\Input\\data-orig\\Inversion_extranjera_neta.xlsx")
-file.choose()
+load("Input/data-orig/Latinobarometro_2023_Esp_Rdata_v1_0.RData")
+inversion_extranjera<- read_excel("Input\\data-orig\\Inversion_extranjera_neta.xlsx")
 
 # Examen visual de la bbdd ------------------------------------------------
 View(Latinobarometro_2023_Esp_v1_0) # ver bbdd
 dim(Latinobarometro_2023_Esp_v1_0)  # dimensiones de la bbdd
 colnames(Latinobarometro_2023_Esp_v1_0) # nombres de las variables de la bbdd
-
-### Buscar lo relacionado a:
-# economía
 
 # Busqueda de Variables ---------------------------------------------------
 
@@ -71,9 +63,6 @@ find_var(data= Latinobarometro_2023_Esp_v1_0,"P10STGBS")
 #la situación económica del país SERÁ mucho mejor, un poco mejor, igual, un poco peor, o mucho peor que ahora?
 find_var(data = Latinobarometro_2023_Esp_v1_0,"P7ST")
 
-# Pais
-find_var(data = Latinobarometro_2023_Esp_v1_0, "idenpa") #chile es 152
-
 # Finalmente se visita documentación de la bbdd para seleccionar variables
 
 #BBDD inversion extranjera------------------------------------------------------
@@ -88,14 +77,24 @@ dim(inversion_extranjera)
 #Data procesada Innversion extranjera-------------------------------------------
 
 inversion_extranjera_directa <- inversion_extranjera %>%select(
-  indicator,# variable texto
   País__ESTANDAR,# variable texto
   Años__ESTANDAR,# variable numerica 
-  value,#variable numerica 
-  source_id)#Variable de etiqueta año de país
+  inv_ext_dir = value)#variable numerica 
+
+
+# Seleccion año de interes ------------------------------------------------
+
+inversion_extranjera_directa <- inversion_extranjera_directa %>% filter(Años__ESTANDAR==2022)
+
+# Borrar base con exceso de variables -------------------------------------
+
+rm(inversion_extranjera)
+
+# Exploracion nueva bbdd --------------------------------------------------
 
 View(inversion_extranjera_directa)
 names(inversion_extranjera_directa)
+colnames(inversion_extranjera_directa)
 
 # Procesamiento de variables inversion extranjera directa----------------------
 
@@ -104,7 +103,7 @@ frq(inversion_extranjera_directa$Años__ESTANDAR)
 frq(inversion_extranjera_directa$value)
 # Renombrar las variables de inversion extranjera directa-----------------------
 inversion_extranjera_directa <- inversion_extranjera_directa %>%
-  rename("idenpa" = pais)
+  rename("idenpa" = País__ESTANDAR)
          
 inversion_extranjera_directa <- inversion_extranjera_directa %>%
   rename("anos_pais"= Años__ESTANDAR)
@@ -113,43 +112,30 @@ inversion_extranjera_directa <- inversion_extranjera_directa %>%
 
 # Data procesada ----------------------------------------------------------
 
-proc_data <- Latinobarometro_2023_Esp_v1_0 %>% select(
-                    P11STGBS.B, # satisfecho con el funcionamiento de la economía
-                    P33N.A, # Los inmigrantes son buenos para la economía del país   
-                    P5STGBS, # Situación económica actual del país
-                    P6STGBS, # Situación económica del país respecto al pasado año
-                    P54ST.B, # satisfaccion economia de mercado
-                    P11STGBS.A,# Satisfecho con el funcionamiento de la democracia
-                    P18STM.B,# No me importaria que un gobiernon no democratico llegara al poder
-                    P10STGBS,# preferencia tipo regimen democracia, autoritarismo o no le importa
-                    P7ST,# Situación económica futura 
-                    idenpa)# pais
+proc_data <- Latinobarometro_2023_Esp_v1_0 %>%
+  filter(idenpa != 862) %>%
+  select(
+    P11STGBS.B, # satisfecho con el funcionamiento de la economía
+    P5STGBS,    # Situación económica actual del país
+    P6STGBS,    # Situación económica del país respecto al pasado año
+    P54ST.B,    # satisfaccion economia de mercado
+    P11STGBS.A, # Satisfecho con el funcionamiento de la democracia
+    P18STM.B,   # No me importaria que un gobiernon no democratico llegara al poder
+    P10STGBS,   # preferencia tipo regimen democracia, autoritarismo o no le importa
+    P7ST,       # Situación económica futura 
+    idenpa      # pais
+  )
+
+View(proc_data)
+
 
 names(proc_data) #comprobar variables seleccionadas
 get_label(proc_data) # se comprueba que no tienen etiquetas la variables
 
-#ahora trabajaremos con todos los paises
-#IDENPA Country
-#32.- Argentina
-#68.- Bolivia
-#76.- Brasil
-#152.- Chile
-#170.- Colombia
-#188.- Costa Rica
-#214.- Rep. Dominicana
-#218.- Ecuador
-#222.- El Salvador
-#320.- Guatemala
-#340.- Honduras
-#484.- México
-#558.- Nicaragua OJO ESTE PAIS NO PARTICIPO EN ESTA ENCUESTA
-#591.- Panamá
-#600.- Paraguay
-#604.- Perú
-#724.- España
-#858.- Uruguay
-#862.- Venezuela
 
+# Borrar bbdd con exceso de variables -------------------------------------
+
+rm(Latinobarometro_2023_Esp_v1_0)
 View(proc_data) # se comprueba bbddd creada
 
 # Procesamiento de Variables ----------------------------------------------
@@ -175,7 +161,6 @@ proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
 # Renombrar Variables -----------------------------------------------------
 proc_data <- proc_data %>% 
   rename("fun_econ" = P11STGBS.B, # satisfaccion func. economia
-         "inmg_econ" = P33N.A, # inmigrantes buenos economia
          "econ_act" = P5STGBS, #economia actual pais
          "econ_anio_pas" = P6STGBS, # economia respecto año pasado
          "econ_mercado" = P54ST.B, # satisfacción economia de mercado
@@ -185,75 +170,41 @@ proc_data <- proc_data %>%
          "econ_fut"= P7ST #funcionamiento economia futuro
          )
 
-# Re-etiquetar Variables --------------------------------------------------
-
-proc_data$fun_econ <- set_label(x = proc_data$fun_econ, label = "Satisfacción: Economía") # signo peso sirve para elegir una variable de la base de datos
-get_label(proc_data$fun_econ)
-
-
-proc_data$inmg_econ <- set_label(x = proc_data$inmg_econ, label = "Inmigracion: Economía")
-get_label(proc_data$inmg_econ)
-
-proc_data$econ_act <- set_label(x = proc_data$econ_act, label = "País: Economía Actual")
-get_label(proc_data$econ_act)
-
-proc_data$econ_anio_pas <- set_label(x = proc_data$econ_anio_pas, label = "Economía: Año Pasado")
-get_label(proc_data$econ_anio_pas)
-
-proc_data$econ_mercado <- set_label(x = proc_data$econ_mercado, label = "Satisfacción: Economía de Mercado")
-get_label(proc_data$econ_mercado)
-
-proc_data$fun_demo <- set_label(x = proc_data$fun_demo, label = "Satisfacción funcionamiento: Democracia")
-get_label(proc_data$fun_demo)
-
-proc_data$gob_nodemo <- set_label(x = proc_data$gob_nodemo, label = "Acuerdo/Desacuerdo: gobierno no democratico")
-get_label(proc_data$gob_nodemo)
-
-proc_data$pref_reg <- set_label(x= proc_data$pref_reg, label= "Preferencia tipo régimen: democrático o autoritario")
-get_label(proc_data$pref_reg)
-
-proc_data$econ_fut <- set_label(x=proc_data$econ_fut, label = "Perspectiva futura: Economía")
-get_label(proc_data$econ_fut)
-View(proc_data)
-
-
-# Generación de BBDD ------------------------------------------------------
-
-proc_data <- as.data.frame(proc_data)
-stargazer(proc_data, type = "text")
-
-save(proc_data, file = "Output")
-
-# Combinacion de BBDD------------------------------------------------------
-proc_data <- inversion_extranjera_directa %>% group_by(idenpa)
-summarise(fun_demo=mean(fun_econ,fun_demo,econ_act,econ_fut,econ_mercado,econ_anio_pas,gob_nodemo,pref_reg,inmg_econ, na.rm= TRUE)
-
-
-
-data <- merge(proc_data,inversion_extranjera_directa,by= "idenpa") #combinamos las BBDD
-
-
-data <- data %>%
+proc_data <- proc_data %>%
   mutate(idenpa = as.character(idenpa)) %>%
   mutate(idenpa = case_when(
     idenpa == "32" ~ "Argentina",
-    idenpa == "68" ~ "Bolivia",
+    idenpa == "68" ~ "Bolivia (Estado Plurinacional de)",
     idenpa == "76" ~ "Brasil",
     idenpa == "152" ~ "Chile",
     idenpa == "170" ~ "Colombia",
     idenpa == "188" ~ "Costa Rica",
-    idenpa == "214" ~ "Cuba",
-    idenpa == "218" ~ "República Dominicana",
-    idenpa == "222" ~ "Ecuador",
-    idenpa == "320" ~ "El Salvador",
-    idenpa == "340" ~ "Guatemala",
-    idenpa == "484" ~ "Honduras",
-    idenpa == "558" ~ "México",
-    idenpa == "600" ~ "Panamá",
-    idenpa == "604" ~ "Paraguay",
-    idenpa == "858" ~ "Uruguay",
-    idenpa == "862" ~ "Venezuela"))
-data$idenpa <- as.numeric(data$idenpa)
+    idenpa == "218" ~ "Ecuador",
+    idenpa == "222" ~ "El Salvador",
+    idenpa == "320" ~ "Guatemala",
+    idenpa == "340" ~ "Honduras",
+    idenpa == "484" ~ "México",
+    idenpa == "591" ~ "Panamá",
+    idenpa == "600" ~ "Paraguay",
+    idenpa == "604" ~ "Perú",
+    idenpa == "858" ~ "Uruguay"))
+
+
+
+# Merge de BBDD -----------------------------------------------------------
+
+data_final <- merge(proc_data, inversion_extranjera_directa, by="idenpa")
+
+data_final <- na.omit(data_final)
+
+
+
+# Generación de BBDD ------------------------------------------------------
+
+data_final <- as.data.frame(data_final)
+stargazer(data_final, type = "text")
+
+save(proc_data, file = "Output")
 
 
 # Tabla -------------------------------------------------------------------
