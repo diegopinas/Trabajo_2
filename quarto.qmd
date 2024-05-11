@@ -25,16 +25,15 @@ algunas factores que se consideran dentro de la categoria de riesgo politico, y 
 
 ademas dentro del riesgo político encontramos los siguientes indicadores del riesgo: expectativas económicas vs. realidad; fracasos de la planificación económica; dirección política; conflicto externo; corrupción en el gobierno; injerencia del ejército en política; influencia de la religión organizada en política; ley y tradición de orden; tensiones raciales y de nacionalidad; terrorismo político; guerra civil; desarrollo de partidos políticos; y calidad de la burocracia. (Loyola, 2006)
 
-En el presente trabajo se realizara un analisis a variables de percepción ciudadana que guardan relación con la visión que tienen los ciudadanos con respecto al funcionamiento de la economia del pais, la percepcion economica de los inmigrantes, su vision de la democracia actual, sus preferencias ante un posible regimen no democratico y finalmente su vision con respecto a la inversion extranjera.
+En el presente trabajo se realizara un analisis de caracter exploratorio con la finalidad de responder a la pregunta: ¿existe relacion entre las perspectivas politico-economicas y la cantidad de inversion extranjera directa? las variables a utilizar serán la percepción ciudadana con respecto al funcionamiento de la economia del pais, asi como, su visión sobre el regimen imperante en sus respectivos países.
 
-Como evidencia que apoya a este trabajo tenemos la investigación de Alejandro Astudillos quien demestra mediante un estudio cuantitativo que las instituciones politicas fuertes tienen un impacto positivo en el crecimiento economico asi como el clima de negocios y de las inversiones.[ver @AstudilloJimenezAlejandro] Es por ello que en el presente trabajo se evaluara la percepcion de la ciudadania chilena, con la finalidad de detectar posibles riesgos para el clima de las inversiones y del sistema politico, para ello se recurrira a la base de datos de latinobarometro que es una encuesta que mide percepciones, actitudes y valores.
+Como evidencia que apoya a este trabajo tenemos la investigación de Alejandro Astudillos quien demestra mediante un estudio cuantitativo que las instituciones politicas fuertes tienen un impacto positivo en el crecimiento economico asi como el clima de negocios y de las inversiones.[ver @AstudilloJimenezAlejandro] Es por ello que en el presente trabajo se evaluara la percepcion de la ciudadania chilena, con la finalidad de detectar posibles riesgos para el clima de las inversiones y del sistema politico, para ello se recurrira a la base de datos de latinobarometro 2023 que es una encuesta que mide percepciones, actitudes y valores; mientras que para analizar el fujo de inversion extranjera se recurrira a las bases de datos que proporciona la CEPAL en su sitio web CEPALSTAT que entrega la cantidad de inversión extranjera directa medida en millones de dolares.
 
 ## Analisis descriptivo de variables
 
-Para el siguiente trabajo se utilizaran las siguientes variables extraidas de la base de latinobarometro del año 2020:
+En el presente trabajo las variables a utilizar son las siguientes:
 
 ```{r Descriptivo, echo=FALSE}
-rm(list=ls())  
 pacman::p_load(sjlabelled,
                dplyr, #Manipulacion de datos
               stargazer, #Tablas
@@ -45,66 +44,36 @@ pacman::p_load(sjlabelled,
               corrplot, # Correlaciones
               sessioninfo, # Información de la sesión de trabajo
               ggplot2) # Para la mayoría de los gráficos
-#creacion BB.DD
-load("Output/Latinobar_Chile_2020.Rdata")
+load("Output/data-proc/data_final")
 
-proc_data <- as.data.frame(proc_data)
-
-sjmisc::descr(proc_data,
+sjmisc::descr(data_final,
               show = c("label","range", "mean", "sd", "NA.prc", "n"))%>% # Selecciona estadísticos
   kable(.,"markdown") # Esto es para que se vea bien en quarto
 
 
 ```
 
-como podemos ver las variables a utilizar son la satisfaccion con el funcionamiento de la economia en general, percepción de si la migración es buena o no para la economía nacional, percepcion de la economia en la actualidad (Año 2020) , percepción economía del año pasado, beneficio de la inversion extranjera (si o no), satisfacción con el funcionamiento de la democracia y finalmente acuerdo o desacuerdo ante un hipotetico gobierno no democratico. cabe destacar que idenpa no es una variable ,sino que un identificador del pais, en este caso a Chile le corresponde el identificador 152.
-
-```{r echo=FALSE}
-pacman::p_load(sjlabelled,
-               dplyr, #Manipulacion de datos
-              stargazer, #Tablas
-              sjmisc, # Tablas
-              summarytools, # Tablas
-              kableExtra, #Tablas
-              sjPlot, #Tablas y gráficos
-              corrplot, # Correlaciones
-              sessioninfo, # Información de la sesión de trabajo
-              ggplot2) # Para la mayoría de los gráficos
-#creacion BB.DD
-load("Output/Latinobar_Chile_2020.Rdata")
-
-proc_data %>% ggplot(aes(x = inv_ext)) + 
-  geom_bar(fill = "coral")+
-  labs(title = "Beneficio de inversion extranjera",
-       x = "Inversión extranjera ",
-       y = "Frecuencia")
-```
-
-Ahora bien, en el siguiente grafico podemos ver una tabla de frecuencia en donde se demuestra la gente a favor de la inversion extranjera y la que esta encontra de la inversión extranjera, en este caso segun el libro de codigos de latinobarometro el numero uno corresponde a gente que esta a favor que es lo que vemos en la barra izquierda y el 2 corresponde a las personas que estarían en contra.
-
-```{r echo=FALSE}
-pacman::p_load(sjlabelled,
-               dplyr, #Manipulacion de datos
-              stargazer, #Tablas
-              sjmisc, # Tablas
-              summarytools, # Tablas
-              kableExtra, #Tablas
-              sjPlot, #Tablas y gráficos
-              corrplot, # Correlaciones
-              sessioninfo, # Información de la sesión de trabajo
-              ggplot2) # Para la mayoría de los gráficos
-#creacion BB.DD
-load("Output/Latinobar_Chile_2020.Rdata")
-
-proc_data %>% ggplot(aes(x = inmg_econ)) + 
-  geom_bar(fill = "coral")+
-  labs(title = "Inmigración para la economía",
-       x = "Inmigracion (a favor o en contra) ",
-       y = "Frecuencia")
-```
-
-En el siguiente grafico podemos ver la postura de las personas chilenas tienen frente a la pregunta de si los inmigrantes son buenos para la economía del pais. el 2 indica a las personas que estan de acuerdo, mientras que el 3 a las personas que estan en desacuerdo, por lo que podemos notar que las personas mayoritariamente tiene una vision negativa de la inmigración para la economía.
+como podemos ver las variables a utilizar son la satisfaccion con el funcionamiento de la economia en general, percepcion de la economia en la actualidad (año 2023) , percepción economía del año pasado (año2022), satisfacción con el funcionamiento de la democracia, de acuerdo o en desacuerdo con la economia de mercado, satisfaccion con el funcionamientos de la democracia, acuerdo o desacuerdo ante un hipotetico gobierno no democratico, preferencia frente a una democracia o un autoritarismo y finalmente perpectivas económicas futuras; todas las variables anteriores pretenden explicar el flujo de inversion extranjera en latinoamerica.
 
 ## correlación entre variables
 
-Ahora bien, para analizar el impacto que tienen las variables seleccionadas en la inversión extranjera se utilizara la base de datos de Latinobarometro 2023 y los flujos de inversion extranjera neta segun datos de la cepalstats
+Ahora bien, para analizar el impacto que tienen las variables seleccionadas en la inversión extranjera se utilizara la base de datos de Latinobarometro 2023 y los flujos de inversion extranjera neta segun datos de la cepalstats que tiene datos desde 1980 sobre el flujo de de las inversiones extranjeras en los paises latinoamericanos, sin embargo, por limitaciones de ambas bases de datos se excluyen los casos de Venezuela y Nicaragua el primero debido a que desde 2018 no cuenta con mas datos sobre su inversión extranjera directa, el segundo debido a que no participo de las encuestas de latinobarometro 2022, por lo que no aparece en la base de datos trabajada.
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2) # Para la mayoría de los gráficos
+load("Output/data-proc/data_final")
+
+sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
+
+```
+
+En el presente gráfico podemos ver los paises con su respectiva inversión extranjera.

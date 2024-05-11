@@ -33,9 +33,6 @@ colnames(Latinobarometro_2023_Esp_v1_0) # nombres de las variables de la bbdd
 #funcionamiento de la economía?
 find_var(data = Latinobarometro_2023_Esp_v1_0, "P11STGBS.B")
 
-#Los inmigrantes son buenos para la economía del país
-find_var(data = Latinobarometro_2023_Esp_v1_0, "P33N.A")
-
 # ¿Cómo calificaría en general la situación económica actual del país? Diría Ud. que es.
 find_var(data = Latinobarometro_2023_Esp_v1_0, "P5STGBS")
 
@@ -204,11 +201,15 @@ data_final <- na.omit(data_final)
 data_final <- as.data.frame(data_final)
 stargazer(data_final, type = "text")
 
-save(proc_data, file = "Output")
+
+save(data_final, file = "Output/data-proc/data_final")
 
 
 # Tabla -------------------------------------------------------------------
 
+#limpieza de base de datos 
+rm(inversion_extranjera_directa)
+rm(proc_data)
 #Abrimos la libreria para realizar graficos
 pacman::p_load(dplyr, # Manipulacion datos
                sjmisc, # Descriptivos
@@ -222,24 +223,15 @@ pacman::p_load(dplyr, # Manipulacion datos
 
 
 
-sjt.xtab(proc_data$econ_act,# economía actual 
-         proc_data$fun_econ, #satisfacción con el funcionamiento de la economía
+sjt.xtab(data_final$econ_act,# economía actual 
+         data_final$fun_econ, #satisfacción con el funcionamiento de la economía
          encoding = "UTF-8")
-# 1. Muy satisfecho
-#2. Más bien satisfecho
-#3. No muy satisfecho
-#4. Nada satisfecho
-#5. No sabe, se eliminaron
-#6. No responde, se eliminaron 
-#
-#Del grafico se puede deducir que la mayoria de las personas durante el 2020
-#se encontraron nada satisfechas
 
-sjt.xtab(proc_data$inmg_econ,#economia: inmigración 
-         proc_data$inv_ext, #Beneficio inversión extrenjera
-         encoding = "UTF-8")
+
+
 # descriptivos------------------------------------------------------------
-sjmisc::descr(proc_data,
+
+sjmisc::descr(data_final,
               show = c("label","range", "mean", "sd", "NA.prc", "n"))%>% # Selecciona estadísticos
   kable(.,"markdown") # Esto es para que se vea bien en quarto
 
@@ -250,30 +242,12 @@ sjmisc::descr(proc_data,
 
 
 # Grafico de puntos
-ggplot(proc_data, aes(x = as.factor(idenpa), y = econ_act, fill = idenpa)) +
+ggplot(data_final, aes(x = as.factor(idenpa), y = inv_ext_dir, fill = idenpa)) +
   geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
-  labs(x = "Chile", y = "Economia Actual") +
+  labs(x = "paises", y = "inversión extranjera directa") +
   theme_classic()
 
-ggplot(proc_data, aes(x = inmg_econ, y = inv_ext, fill = idenpa)) +
-  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
-  labs(x = "Inversión Extranjera", y = "Frecuencia") +
-  theme_classic()
 
-ggplot(proc_data, aes(x = inv_ext, y = inmg_econ, fill = idenpa)) +
-  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
-  labs(x = "Inversión extranjera", y = "Inmigración economía") +
-  theme_classic()
-
-ggplot(proc_data, aes(x = as.factor(idenpa), y = inmg_econ, fill = idenpa)) +
-  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
-  labs(x = "Chile", y = "Inmigración economía") +
-  theme_classic()
-
-ggplot(proc_data, aes(x = as.factor(idenpa), y = econ_act, fill = idenpa)) +
-  geom_jitter(position = position_jitter(width = 0.3, height = 0), size = 3, alpha = 0.7) +
-  labs(x = "Chile", y = "Economia actual") +
-  theme_classic()
 
 
 
@@ -283,15 +257,36 @@ ggplot(proc_data, aes(x = econ_act, fill = idenpa)) +
   geom_rug(data = proc_data, aes(x = econ_act, fill = idenpa), sides = "b", alpha = 0.5) +  # Rug plot
   labs(x = "Economia Actual", y = "Densidad") +  # Etiquetas de los ejes
   theme_classic()
-# correlaciones ----------------------------------------------------------------
-#forma 1 de representar correlación entre variables
-M <-cor(proc_data,use = "complete.obs")
-M
 
+
+
+
+
+
+
+# correlaciones ----------------------------------------------------------------
+pacman::p_load(dplyr, # Manipulacion datos
+               sjmisc, # Descriptivos
+               sjPlot, # Tablas
+               sjlabelled, #etiquetas
+               kableExtra, #Tablas
+               GGally, # Correlaciones
+               corrplot) # Correlaciones
+
+options(scipen = 999) # para desactivar notacion cientifica
+
+
+
+
+#forma 1 de representar correlación entre variables
+
+data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+correlation_matrix <- cor(data_numeric)
+cor(data_numeric)
 #forma dos de representar correlación entre variables
-sjPlot::tab_corr(proc_data, 
+sjPlot::tab_corr(data_final, 
                  triangle = "lower")
-corrplot.mixed(M)
+corrplot.mixed(data_final)
 
 # tercera forma de representar correlación entre variables
 proc_data <- proc_data %>%
@@ -304,7 +299,12 @@ proc_data <- proc_data %>%
 ggpairs(proc_data)
 
 # Cuarta forma es con el grafico de puntos
-sjPlot::plot_scatter(proc_data,fun_demo ,fun_econ )
+sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
 
+# prueba de consistencia interna------------------------------------
+install.packages("psych")
+library("psych")
+
+psych::alpha(data_numeric)
 
 
