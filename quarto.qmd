@@ -47,7 +47,7 @@ pacman::p_load(sjlabelled,
 load("Output/data-proc/data_final")
 
 sjmisc::descr(data_final,
-              show = c("label","range", "mean", "sd", "NA.prc", "n"))%>% # Selecciona estadísticos
+              show = c("label","range", "mean", "NA.prc", "n"))%>% # Selecciona estadísticos
   kable(.,"markdown") # Esto es para que se vea bien en quarto
 
 
