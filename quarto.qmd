@@ -76,4 +76,56 @@ sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
 
 ```
 
-En el presente gráfico podemos ver los paises con su respectiva inversión extranjera.
+En el presente gráfico podemos ver los paises con su respectiva inversión extranjera, siendo brasil el pais que mas inversión extranjera recibe, mientras que bolivia es el que menos inversión extranjera recibe.
+
+ahora analizaremos la relacion que existe entre la satisafaccion con el funcionamiento de la democracia y la economia
+
+en la siguiente table de correlación podemos ver:
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2) # Para la mayoría de los gráficos
+load("Output/data-proc/data_final")
+
+data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+
+correlation_matrix <- cor(data_numeric)
+
+corrplot.mixed(correlation_matrix)
+```
+
+En la presente matriz de correlaciones es posible observar que el coeficiente de correlación de Pearson entre la satisfacción con el funcionamiento de la economia y la satisfacción con el funcionamiento de la democracia es positivo y grande (r \>= 5) según Cohen (1988). Lo mismo ocurre con la satisfacción con la economia del año actual con respecto al año pasado.
+
+sin embargo, las variables seleccionadas no son capaces de explicar la inversión extenjera directa.
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2,
+              GGally) # Para la mayoría de los gráficos
+
+load("Output/data-proc/data_final")
+
+data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+
+correlation_matrix <- cor(data_numeric)
+
+ggpairs(correlation_matrix)
+```
+
+En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo no encontramos relaciones con las variables elegidas y su impacto en la inversión extranjera directa. no obstante si encontramos que la inversión extranjera directa guarda una relacion negativa y moderada con respecto a la satisfacción de la economía del año pasado.
