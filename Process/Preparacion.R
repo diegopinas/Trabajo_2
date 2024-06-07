@@ -10,7 +10,8 @@ pacman::p_load(dplyr,
                haven,
                sjPlot,# esto es para hacer tablas
                ggplot2,
-               readxl) 
+               readxl,
+               psych) 
 
 # Ajustar espacio de trabajo ----------------------------------------------
 
@@ -36,29 +37,68 @@ find_var(data = Latinobarometro_2023_Esp_v1_0, "P11STGBS.B")
 # ¿Cómo calificaría en general la situación económica actual del país? Diría Ud. que es.
 find_var(data = Latinobarometro_2023_Esp_v1_0, "P5STGBS")
 
-# ¿Considera Ud. que la situación económica actual del país está mucho mejor, 
-# un poco mejor, igual, un poco peor, o mucho peor que hace doce meses?
-find_var(data = Latinobarometro_2023_Esp_v1_0, "P6STGBS")
-
 # Grado de acuerdo con las siguientes frases La economía de mercado es el único sistema con el que el (PAÍS)puede llegar a ser desarrollado
 find_var(data = Latinobarometro_2023_Esp_v1_0, "P54ST.B")
 
 #¿ diria usted que esta satisfecho con el funcionamiento de la democracia en el pais?
 find_var(data= Latinobarometro_2023_Esp_v1_0,"P11STGBS.A")
 
+
+#P35NA. (MOSTRAR TARJETA 11) Pensando en la mejor forma de gobernar para Ud., ¿cuál de estos aspectos considera usted el más importante?
+#Concentrar el poder político en un líder ... 1 1
+#Distribuir el poder en varias instituciones 2 2
+#Que la prensa no cuestione el poder ........ 3 3
+#Garantizar las libertades políticas de
+#los ciudadanos 4 4
+find_var(data=Latinobarometro_2023_Esp_v1_0,"P35NA")
+
+#Corrupción
+find_var(data=Latinobarometro_2023_Esp_v1_0,"P60ST") 
+
+# Sobre los impuestos
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P22ST")
+
+#confianza en gobierno
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.E")
+
+#Confianza Congreso
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.D")
+
+#Confianza Bancos
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P14ST.F")
+
+#Confianza poder judicial
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.F")
+
+#Desempeño Gobierno aprueba/no aprueba ##DE AQUI A ABAJO SON VARIABLES DE DESEMPEÑO GOBIERNO
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P15STGBS")
+
+#la mejor forma dw gobernar es hay 4 opciones
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P35NA")
+
+#Acuero o desacuerdo en que poder judicial sea independiente
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P18N.E")
+
+### DE AQUI ABAJO VARIABLES DERECHOS que llamaremos "estado de derecho"
+#protecion propiedad privada
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P41ST.D")
+
+#proteccion contra el crimen
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P41ST.J")
+
+###VARIABLES ECONOMICAS NUEVAS
+# Imagen progreso del pais
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P2ST")
+
+###vARIABLE PROTESTAS SOCIALES = CONFLICTO
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P54N.A")
+
+###inestabilidad regimen politico
+#a favor o encontra de apoyar un regimen militar
+find_var(data= Latinobarometro_2023_Esp_v1_0,"P20STM") 
+
 # No me importaria que un gobiernon no democratico llegara al poder MA,A,D,MD,NS/NR      
 find_var(data= Latinobarometro_2023_Esp_v1_0,"P18STM.B")
-
-#¿Con cuál de las siguientes frases está Ud. más de acuerdo? 
-#La democracia es preferible a cualquier
-# otra forma de gobierno .................. .. 1 # 
-#En algunas circunstancias, un gobierno autoritario puede ser preferible a uno democrático.2
-#A la gente como uno, nos da lo mismo un régimen democrático que uno no democrático . 3
-find_var(data= Latinobarometro_2023_Esp_v1_0,"P10STGBS") 
-
-#¿Y en los próximos doce meses cree Ud. que, en general,
-#la situación económica del país SERÁ mucho mejor, un poco mejor, igual, un poco peor, o mucho peor que ahora?
-find_var(data = Latinobarometro_2023_Esp_v1_0,"P7ST")
 
 # Finalmente se visita documentación de la bbdd para seleccionar variables
 
@@ -114,12 +154,24 @@ proc_data <- Latinobarometro_2023_Esp_v1_0 %>%
   select(
     P11STGBS.B, # satisfecho con el funcionamiento de la economía
     P5STGBS,    # Situación económica actual del país
-    P6STGBS,    # Situación económica del país respecto al pasado año
     P54ST.B,    # satisfaccion economia de mercado
     P11STGBS.A, # Satisfecho con el funcionamiento de la democracia
-    P18STM.B,   # No me importaria que un gobiernon no democratico llegara al poder
+    P18STM.B,   # No me importaria que un gobiernon no democratico llegara al poder MA,A,D,MD,NS/NR
     P10STGBS,   # preferencia tipo regimen democracia, autoritarismo o no le importa
-    P7ST,       # Situación económica futura 
+    P60ST,      # Corrupción
+    P22ST,      # percepción impuestos ¿es justo o no?
+    P13ST.E,    #Confianza en el gobierno
+    P13ST.D,    #Confianza en el Congreso
+    P14ST.F,    #Confianza en Bancos
+    P13ST.F,    #Confianza poder judicial
+    P15STGBS,   # apruebo/no aprueba desempeño del gobierno
+    P35NA,      #mejor forma de gobernar 4 opciones
+    P18N.E,     #Acuerdo o desacuerdo en que poder judicial se independiente
+    P41ST.D,    #Protección propiedad privada
+    P41ST.J,    #Protección contra el crimen
+    P2ST,       #imagen progreso del pais
+    P54N.A,     #grado acuerdo con protestas
+    P20STM,     # a favor o encontra de apoyar un regimen militar
     idenpa      # pais
   )
 
@@ -142,14 +194,25 @@ View(proc_data) # se comprueba bbddd creada
 # -1 no responde
 
 frq(proc_data$P11STGBS.B) # -2 y -1 para NA
-frq(proc_data$P33N.A) # -5 para NA
+frq(proc_data$P22ST) # -2 y -1 para NA
 frq(proc_data$P5STGBS) # -2 y -1 para NA
-frq(proc_data$P6STGBS) # -2 y -1 para NA
+frq(proc_data$P60ST) # -2 y -1 para NA
 frq(proc_data$P54ST.B) # -5 para NA
 frq(proc_data$P11STGBS.A)#-2 y -1 para NA
 frq(proc_data$P18STM.B)# -5 para NA
 frq(proc_data$P10STGBS)#-2 y -1 para NA
-frq(proc_data$P7ST)#-2 y -1 para NA
+frq(proc_data$P13ST.E) #-2 y -1 para NA
+frq(proc_data$P13ST.D) # -2 y -1 para NA
+frq(proc_data$P14ST.F) # -2 y -1 para NA
+frq(proc_data$P13ST.F) # -2 y -1 para NA
+frq(proc_data$P15STGBS) # - 5 para NA
+frq(proc_data$P35NA) #-2 y -1 para NA
+frq(proc_data$P18N.E) # -5 para NA
+frq(proc_data$P41ST.D) # -5 para NA
+frq(proc_data$P41ST.J) # -5 para NA
+frq(proc_data$P2ST) #-2 y -1 para NA
+frq(proc_data$P54N.A) # -5 para NA
+frq(proc_data$P20STM) #-2 y .1 para NA
 
 #Transformación de -5, -2 y -1 a NA para todas las variables
 proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
@@ -159,12 +222,24 @@ proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
 proc_data <- proc_data %>% 
   rename("fun_econ" = P11STGBS.B, # satisfaccion func. economia
          "econ_act" = P5STGBS, #economia actual pais
-         "econ_anio_pas" = P6STGBS, # economia respecto año pasado
          "econ_mercado" = P54ST.B, # satisfacción economia de mercado
          "fun_demo"= P11STGBS.A, # satisfaccion func. democracia
          "gob_nodemo"= P18STM.B, # No me importaria que un gobiernon no democratico llegara al poder
          "pref_reg"= P10STGBS, # Preferencia tipo regimen democratico vs autorirario
-         "econ_fut"= P7ST #funcionamiento economia futuro
+         "percep_corrup" = P60ST, # percepción corrupción
+         "per_impuestos" = P22ST, #percepcion sobre evacion impuestos
+         "conf_gob"= P13ST.E, #Confianza en el gobierno
+         "conf_cong"= P13ST.D, #Confianza en el Congreso
+         "conf_banc"= P14ST.F, #Confianza en Bancos
+         "con_judicial"= P13ST.F,#Confianza poder judicial
+         "desem_gob" = P15STGBS, # apruebo/no aprueba desempeño del gobierno
+         "forma_gob" = P35NA, #forma de goberna existen cuatro respuestas:Concentrar el poder político en un líder,Distribuir el poder en varias instituciones,Que la prensa no cuestione el poder,Garantizar las libertades políticas de los ciudadanos
+         "indep_judicial" = P18N.E, #Acuerdo o desacuerdo en que poder judicial se independiente 
+         "prot_privada"= P41ST.D, #Protección propiedad privada
+         "prot_crimen"= P41ST.J, #Protección crimen
+         "imagen_prog_pais"= P2ST, #imagen progreso del pais
+         "grad_protesta" = P54N.A, #grado acuerdo con protestas
+         "apoyo_gob_militar"= P20STM, # a favor o encontra de apoyar un regimen militar
          )
 
 proc_data <- proc_data %>%
@@ -252,10 +327,10 @@ ggplot(data_final, aes(x = as.factor(idenpa), y = inv_ext_dir, fill = idenpa)) +
 
 
 # Grafico con distribución normal
-ggplot(proc_data, aes(x = econ_act, fill = idenpa)) +
+ggplot(data_final, aes(x = idenpa, fill = inv_ext_dir)) +
   geom_density(alpha = 0.5) +  # Curva de densidad
-  geom_rug(data = proc_data, aes(x = econ_act, fill = idenpa), sides = "b", alpha = 0.5) +  # Rug plot
-  labs(x = "Economia Actual", y = "Densidad") +  # Etiquetas de los ejes
+  geom_rug(data = data_final, aes(x = idenpa, fill = inv_ext_dir), sides = "b", alpha = 0.5) +  # Rug plot
+  labs(x = "Países", y = "Inversión extranjera directa") +  # Etiquetas de los ejes
   theme_classic()
 
 
@@ -275,36 +350,42 @@ pacman::p_load(dplyr, # Manipulacion datos
 
 options(scipen = 999) # para desactivar notacion cientifica
 
-
-
+rm(data_numeric)
+cor(data_final, use = "complete.obs")
+corrplot.mixed(correlation_matrix)
 
 #forma 1 de representar correlación entre variables
 
 data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
 correlation_matrix <- cor(data_numeric)
 cor(data_numeric)
+
 #forma dos de representar correlación entre variables
-sjPlot::tab_corr(data_final, 
+sjPlot::tab_corr(data_numeric, 
                  triangle = "lower")
-corrplot.mixed(data_final)
+
+corrplot.mixed(correlation_matrix)
 
 # tercera forma de representar correlación entre variables
-proc_data <- proc_data %>%
+data_final <- data_final %>%
   rowwise() %>%
-  mutate( econ_mercado= sum(c(fun_econ, fun_demo), na.rm = TRUE))
-proc_data <- proc_data %>%
-  rowwise() %>%
-  mutate( inversión= sum(c(fun_econ, fun_demo), na.rm = TRUE))
+  mutate( inv_ext_dir= sum(c(fun_demo, fun_econ), na.rm = TRUE))
 
-ggpairs(proc_data)
+
+
+ggpairs(correlation_matrix)
+
 
 # Cuarta forma es con el grafico de puntos
 sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
 
 # prueba de consistencia interna------------------------------------
-install.packages("psych")
-library("psych")
+
 
 psych::alpha(data_numeric)
 
+# como consejo para el siguiente trabajo 4 agrupar las variables que tienen correlación para transformar un indice
+
+result <- psych::alpha(data_numeric, check.keys = TRUE)
+print(result)
 

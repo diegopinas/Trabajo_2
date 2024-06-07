@@ -21,11 +21,11 @@ Ahora bien existen pocos trabajos desde la ciencia política que vean la relaci�
 
 Es debido a lo anterior que este trabajo se enmarcara dentro del estudio de la politica comparada (@pasquino2014) , pues se pretende comparar la estabilidad de distintos regimenes de latinoamerica con la finalidad de explorar como es el clima politico para los negocios ,asi como, posibles percepciones que podrian derivar en conflictos politicos internos que amenacen tanto al regimen como las empresas.
 
-algunas factores que se consideran dentro de la categoria de riesgo politico, y que afectan a Chile son: la corrupción, crimen organizado, el clima de negocios (esto segun el ultimo informe de riesgo politico en America Latina). todos factores que imposibilitan el desarrollo economico y las ventajas comparativas que podria tener Chile en la transición energética mundial.
+algunas factores que se consideran dentro de la categoria de riesgo politico, y que afectan a Chile son: la corrupción, crimen organizado, el clima de negocios (esto segun el ultimo informe de riesgo politico en America Latina).
 
 ademas dentro del riesgo político encontramos los siguientes indicadores del riesgo: expectativas económicas vs. realidad; fracasos de la planificación económica; dirección política; conflicto externo; corrupción en el gobierno; injerencia del ejército en política; influencia de la religión organizada en política; ley y tradición de orden; tensiones raciales y de nacionalidad; terrorismo político; guerra civil; desarrollo de partidos políticos; y calidad de la burocracia. (Loyola, 2006)
 
-En el presente trabajo se realizara un analisis de caracter exploratorio con la finalidad de responder a la pregunta: ¿existe relacion entre las perspectivas politico-economicas y la cantidad de inversion extranjera directa? las variables a utilizar serán la percepción ciudadana con respecto al funcionamiento de la economia del pais, asi como, su visión sobre el regimen imperante en sus respectivos países.
+En el presente trabajo se realizara un analisis de caracter exploratorio con la finalidad de responder a la pregunta: ¿existe relacion entre las perspectivas politico-economicas y la cantidad de inversion extranjera directa? las variables a utilizar serán la percepción ciudadana con respecto al funcionamiento de la economia del pais, perspectuvas del regimen politico, percepción de la corrupción, variables sobre la percepcion de los derechos politicos y finalmente variables de conflicto social como: grado de acuerdo con las protestas, protección del Estado contra el crimen, proteccion a la propiedad privada y perspectiva sobre su es correcto o no pagar impuestos.
 
 Como evidencia que apoya a este trabajo tenemos la investigación de Alejandro Astudillos quien demestra mediante un estudio cuantitativo que las instituciones politicas fuertes tienen un impacto positivo en el crecimiento economico asi como el clima de negocios y de las inversiones.[ver @AstudilloJimenezAlejandro] Es por ello que en el presente trabajo se evaluara la percepcion de la ciudadania chilena, con la finalidad de detectar posibles riesgos para el clima de las inversiones y del sistema politico, para ello se recurrira a la base de datos de latinobarometro 2023 que es una encuesta que mide percepciones, actitudes y valores; mientras que para analizar el fujo de inversion extranjera se recurrira a las bases de datos que proporciona la CEPAL en su sitio web CEPALSTAT que entrega la cantidad de inversión extranjera directa medida en millones de dolares.
 
@@ -53,7 +53,34 @@ sjmisc::descr(data_final,
 
 ```
 
-como podemos ver las variables a utilizar son la satisfaccion con el funcionamiento de la economia en general, percepcion de la economia en la actualidad (año 2023) , percepción economía del año pasado (año2022), satisfacción con el funcionamiento de la democracia, de acuerdo o en desacuerdo con la economia de mercado, satisfaccion con el funcionamientos de la democracia, acuerdo o desacuerdo ante un hipotetico gobierno no democratico, preferencia frente a una democracia o un autoritarismo y finalmente perpectivas económicas futuras; todas las variables anteriores pretenden explicar el flujo de inversion extranjera en latinoamerica.
+como podemos ver las variables a utilizar son 20 donde encontramos variables de confianza en las instituciones politicas nacionales, como lo son: Gobierno, Congreso, poder judicial y finalmente en las instituciones bancarias. Por otro lado, tenemos variables de perspectivas economicas, entre las que destacan: satisfacción con el funcionamiento de la economia, imagen progreso país, y satisfaccion con la economia de mercado.Tambien se utilizaran variables de satisfaccion con el regimen politico: satisfaccion con el funcionamientos de la democracia, acuerdo o desacuerdo ante un hipotetico gobierno no democratico, apoyo a un golpe militar o no, preferencia frente a una democracia o un autoritarismo
+
+finalemente encontramos variables de derechos politicos como son: grado de acuerdo con las protestas, protección del Estado contra el crimen, proteccion a la propiedad privada y perspectiva sobre su es correcto o no pagar impuestos.
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2,
+             psych )
+
+load("Output/data-proc/data_final")
+
+ggplot(data_final,aes(x =idenpa, y =inv_ext_dir))+
+  geom_point()+
+labs(x="pais",y="inversion extranjera directa")+
+theme(axis.text.x = element_text(size = 4),
+      axis.text.y = element_text(size = 4) )
+
+```
+
+en el presente grafico podemos ver los paises y sus la respectiva inversión extranjera que reciben, siendo Brasil el pais que mayor inversion extranjera recibe y Bolivia el que menos recibe
 
 ## correlación entre variables
 
@@ -72,7 +99,7 @@ pacman::p_load(sjlabelled,
               ggplot2) # Para la mayoría de los gráficos
 load("Output/data-proc/data_final")
 
-sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
+sjPlot::plot_scatter(data_final,fun_demo,fun_econ)
 
 ```
 
@@ -126,6 +153,24 @@ data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato 
 correlation_matrix <- cor(data_numeric)
 
 ggpairs(correlation_matrix)
+
+  
 ```
 
-En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo no encontramos relaciones con las variables elegidas y su impacto en la inversión extranjera directa. no obstante si encontramos que la inversión extranjera directa guarda una relacion negativa y moderada con respecto a la satisfacción de la economía del año pasado.
+En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo, no encontramos relaciones entre las variables que nos permitan hablar de un impacto significativo en la inversion extranjera, la unica variable que afecta a la inversion extranjera pero de forma poco significativa es la evaluación del desempeño del gobierno, donde esta ultima explica en un 12% la caida de la inversion extranjera directa de los paises.
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2,
+              GGally)
+sjPlot::plot_scatter(data_final,desem_gob,inv_ext_dir)
+
+```
