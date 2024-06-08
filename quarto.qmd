@@ -25,7 +25,7 @@ algunas factores que se consideran dentro de la categoria de riesgo politico, y 
 
 ademas dentro del riesgo político encontramos los siguientes indicadores del riesgo: expectativas económicas vs. realidad; fracasos de la planificación económica; dirección política; conflicto externo; corrupción en el gobierno; injerencia del ejército en política; influencia de la religión organizada en política; ley y tradición de orden; tensiones raciales y de nacionalidad; terrorismo político; guerra civil; desarrollo de partidos políticos; y calidad de la burocracia. (Loyola, 2006)
 
-En el presente trabajo se realizara un analisis de caracter exploratorio con la finalidad de responder a la pregunta: ¿existe relacion entre las perspectivas politico-economicas y la cantidad de inversion extranjera directa? las variables a utilizar serán la percepción ciudadana con respecto al funcionamiento de la economia del pais, perspectuvas del regimen politico, percepción de la corrupción, variables sobre la percepcion de los derechos politicos y finalmente variables de conflicto social como: grado de acuerdo con las protestas, protección del Estado contra el crimen, proteccion a la propiedad privada y perspectiva sobre su es correcto o no pagar impuestos.
+En el presente trabajo se realizara un analisis de caracter exploratorio con la finalidad de responder a la pregunta: ¿existe relacion entre las perspectivas politico-economicas y la cantidad de inversion extranjera directa? las variables a utilizar serán la percepción ciudadana con respecto al funcionamiento de la economia del pais, perspectuvas del regimen politico, percepción de la corrupción, variables sobre la percepcion de los derechos politicos y finalmente variables de conflicto social como: grado de acuerdo con las protestas, protección del Estado contra el crimen y la proteccion a la propiedad privada .
 
 Como evidencia que apoya a este trabajo tenemos la investigación de Alejandro Astudillos quien demestra mediante un estudio cuantitativo que las instituciones politicas fuertes tienen un impacto positivo en el crecimiento economico asi como el clima de negocios y de las inversiones.[ver @AstudilloJimenezAlejandro] Es por ello que en el presente trabajo se evaluara la percepcion de la ciudadania chilena, con la finalidad de detectar posibles riesgos para el clima de las inversiones y del sistema politico, para ello se recurrira a la base de datos de latinobarometro 2023 que es una encuesta que mide percepciones, actitudes y valores; mientras que para analizar el fujo de inversion extranjera se recurrira a las bases de datos que proporciona la CEPAL en su sitio web CEPALSTAT que entrega la cantidad de inversión extranjera directa medida en millones de dolares.
 
@@ -53,9 +53,9 @@ sjmisc::descr(data_final,
 
 ```
 
-como podemos ver las variables a utilizar son 20 donde encontramos variables de confianza en las instituciones politicas nacionales, como lo son: Gobierno, Congreso, poder judicial y finalmente en las instituciones bancarias. Por otro lado, tenemos variables de perspectivas economicas, entre las que destacan: satisfacción con el funcionamiento de la economia, imagen progreso país, y satisfaccion con la economia de mercado.Tambien se utilizaran variables de satisfaccion con el regimen politico: satisfaccion con el funcionamientos de la democracia, acuerdo o desacuerdo ante un hipotetico gobierno no democratico, apoyo a un golpe militar o no, preferencia frente a una democracia o un autoritarismo
+como podemos ver las variables a utilizar son 17 donde encontramos variables de confianza en las instituciones politicas nacionales, como lo son: Gobierno, Congreso, poder judicial y finalmente en las instituciones bancarias. Por otro lado, tenemos variables de perspectivas economicas, entre las que destacan: satisfacción con el funcionamiento de la economia, imagen progreso país, economia con respecto al año pasado, percepcion economica actual.Tambien se utilizaran variables de satisfaccion con el regimen politico: satisfaccion con el funcionamientos de la democracia, acuerdo o desacuerdo ante un hipotetico gobierno no democratico, apoyo a un golpe militar o no, ademas de una variable sobre el desempeño del gobiero. Por ultimo, encontramos variables de derechos politicos como son: grado de acuerdo con las protestas, protección del Estado contra el crimen y protección a la propiedad privada.
 
-finalemente encontramos variables de derechos politicos como son: grado de acuerdo con las protestas, protección del Estado contra el crimen, proteccion a la propiedad privada y perspectiva sobre su es correcto o no pagar impuestos.
+# gráfico de inversión extranjera directa para los paises latinoamericanos.
 
 ```{r echo=FALSE}
 pacman::p_load(sjlabelled,
@@ -70,17 +70,41 @@ pacman::p_load(sjlabelled,
               ggplot2,
              psych )
 
-load("Output/data-proc/data_final")
+load("Output/data-proc/bb_dd")
 
-ggplot(data_final,aes(x =idenpa, y =inv_ext_dir))+
+ggplot(bb_dd,aes(x =idenpa, y =inv_ext_dir))+
   geom_point()+
 labs(x="pais",y="inversion extranjera directa")+
 theme(axis.text.x = element_text(size = 4),
-      axis.text.y = element_text(size = 4) )
+      axis.text.y = element_text(size = 3) )
 
 ```
 
-en el presente grafico podemos ver los paises y sus la respectiva inversión extranjera que reciben, siendo Brasil el pais que mayor inversion extranjera recibe y Bolivia el que menos recibe
+en el presente grafico podemos ver los paises y sus la respectiva inversión extranjera que reciben, siendo Brasil el pais que mayor inversion extranjera recibe y el Salvador el que menos recibe.
+
+Ahora bien, con la finalidad de explicar la variación en la inversion extranjera de estos paises se juntaran las variables mas arriba seleccionadas para comprobar si la hipotesis: las variables politico-economicas afectan a la inversión extranjera.
+
+```{r echo=FALSE}
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+              stargazer, #Tablas
+              sjmisc, # Tablas
+              summarytools, # Tablas
+              kableExtra, #Tablas
+              sjPlot, #Tablas y gráficos
+              corrplot, # Correlaciones
+              sessioninfo, # Información de la sesión de trabajo
+              ggplot2,
+             psych)
+
+load("Output/data-proc/bb_dd")
+
+sjmisc::descr(bb_dd,
+              show = c("label","range", "mean", "NA.prc", "n"))%>% # Selecciona estadísticos
+  kable(.,"markdown")
+```
+
+Como podemos observar las variables seleccionadas fueron agrupadas y promediadas en nueve dimensiones que permitan explicar la inversion extranjera, la primera de ellas es la confianza en las instituciones, la segunda es la percepcion economica, la tercera el conflicto social, la cuarta el Estado de derecho, la quinta la imagen progreso del pais, la sexta la corrupción, la septima el desempeño del gobierno la octava, la inestabilidad del regimen politico y finalmente la percepcion politico economica del país. cabe destacar que dichas variables fueron agrupadas segun las caracteristicas de las mismas, es decir, las categoricas con las categoricas y las binarias con sus respectivas variables es en base a la agrupación anterior que se lograron obtener las siguientes correlaciones.
 
 ## correlación entre variables
 
@@ -96,18 +120,19 @@ pacman::p_load(sjlabelled,
               sjPlot, #Tablas y gráficos
               corrplot, # Correlaciones
               sessioninfo, # Información de la sesión de trabajo
-              ggplot2) # Para la mayoría de los gráficos
-load("Output/data-proc/data_final")
+              ggplot2,
+             psych)
+          
+load("Output/data-proc/bb_dd")
 
-sjPlot::plot_scatter(data_final,fun_demo,fun_econ)
+data_numerica <- select(bb_dd, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+
+sjPlot::plot_scatter(data_numerica,percepcion_politico_econ,confianza_inst)
+
 
 ```
 
-En el presente gráfico podemos ver los paises con su respectiva inversión extranjera, siendo brasil el pais que mas inversión extranjera recibe, mientras que bolivia es el que menos inversión extranjera recibe.
-
-ahora analizaremos la relacion que existe entre la satisafaccion con el funcionamiento de la democracia y la economia
-
-en la siguiente table de correlación podemos ver:
+como podemos ver existe una correlación bastante fuerte entre la percepción politico economica y la confianza en las instituciones.
 
 ```{r echo=FALSE}
 pacman::p_load(sjlabelled,
@@ -120,11 +145,11 @@ pacman::p_load(sjlabelled,
               corrplot, # Correlaciones
               sessioninfo, # Información de la sesión de trabajo
               ggplot2) # Para la mayoría de los gráficos
-load("Output/data-proc/data_final")
+load("Output/data-proc/bb_dd")
 
-data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+data_numerica <- select(bb_dd, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
 
-correlation_matrix <- cor(data_numeric)
+correlation_matrix <- cor(data_numerica)
 
 corrplot.mixed(correlation_matrix)
 ```
@@ -144,13 +169,14 @@ pacman::p_load(sjlabelled,
               corrplot, # Correlaciones
               sessioninfo, # Información de la sesión de trabajo
               ggplot2,
-              GGally) # Para la mayoría de los gráficos
+              GGally,) # Para la mayoría de los gráficos
 
-load("Output/data-proc/data_final")
+load("Output/data-proc/bb_dd")
 
-data_numeric <- select(data_final, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
+data_numerica <- select(bb_dd, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
 
-correlation_matrix <- cor(data_numeric)
+correlation_matrix <- cor(data_numerica)
+
 
 ggpairs(correlation_matrix)
 
@@ -158,6 +184,8 @@ ggpairs(correlation_matrix)
 ```
 
 En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo, no encontramos relaciones entre las variables que nos permitan hablar de un impacto significativo en la inversion extranjera, la unica variable que afecta a la inversion extranjera pero de forma poco significativa es la evaluación del desempeño del gobierno, donde esta ultima explica en un 12% la caida de la inversion extranjera directa de los paises.
+
+# construcción indices
 
 ```{r echo=FALSE}
 pacman::p_load(sjlabelled,

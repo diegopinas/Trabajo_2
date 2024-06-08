@@ -278,6 +278,7 @@ stargazer(data_final, type = "text")
 
 
 save(data_final, file = "Output/data-proc/data_final")
+view(data)
 
 
 # Tabla -------------------------------------------------------------------
