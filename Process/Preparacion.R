@@ -528,6 +528,37 @@ summary(bb_dd$inv_ext_dir) # Resumensummary indicadores inversión extranjera
 pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
 #abrimos librerias y limpiamos entorno de trabajo 
 rm(data_final)
+load("Output/data-proc/bb_dd")
+M <- cor(data_numerica , use = "complete.obs") # Usar solo casos con observaciones completas
+diag(M)= NA
+corrplot::corrplot(M,
+                   method = "color", # Cambia los círculos por color completo de cada cuadrante
+                   addCoef.col = "#000390", # Color de los coeficientes
+                   type = "upper", # Deja solo las correlaciones de arriba
+                   tl.col = "black", # COlor letras, rojo por defecto
+                   na.label = "-")
 
+#Grafico x1 = ACT
+graph1 <- ggplot(bb_dd, aes(x = desempeño_gobierno, y = inv_ext_dir)) +
+  geom_point(size = 1) +  # Puntos
+  geom_smooth(method = "lm", se = FALSE) +  # Recta de regresión
+  labs(x = "desempeño gobierno", y = "inversión extranjera directa")  # Etiquetas de ejes
 
+# Gráfico 2
+graph2 <- ggplot(bb_dd, aes(x = percepcion_politico_econ, y = confianza_inst)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "percepcion politico-economica", y = "confianza institucional")
+ggarrange(graph1, graph2, nrow = 1) # Unir graficos
 
+# creación regresion lineal
+reg1 <- lm(inv_ext_dir ~ desempeño_gobierno, data=bb_dd)
+knitreg(list(reg1),
+        custom.model.names = c("Modelo 1"),
+        custom.note = "*** p < 0.001; ** p < 0.01; * p < 0.05",
+        custom.coef.names = c("Intercepto", 
+                              "desempeño gobierno"),
+        caption = "inversión extranjera directa",
+        caption.above = TRUE)
+        
+        
