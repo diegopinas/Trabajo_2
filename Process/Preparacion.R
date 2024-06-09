@@ -30,79 +30,132 @@ colnames(Latinobarometro_2023_Esp_v1_0) # nombres de las variables de la bbdd
 
 # Busqueda de Variables ---------------------------------------------------
 
+#variables percepción regimen politico/economico: 
+
 #En general, ¿Diría Ud. que está muy satisfecho, más bien satisfecho, no muy satisfecho o nada satisfecho con el funcionamiento de
 #funcionamiento de la economía?
 find_var(data = Latinobarometro_2023_Esp_v1_0, "P11STGBS.B")
-
-# ¿Cómo calificaría en general la situación económica actual del país? Diría Ud. que es.
-find_var(data = Latinobarometro_2023_Esp_v1_0, "P5STGBS")
-
-# Grado de acuerdo con las siguientes frases La economía de mercado es el único sistema con el que el (PAÍS)puede llegar a ser desarrollado
-find_var(data = Latinobarometro_2023_Esp_v1_0, "P54ST.B")
+#Muy satisfecho ........... 1  
+#Más bien satisfecho ...... 2 
+#No muy satisfecho ........ 3 
+#Nada satisfecho .......... 4 
 
 #¿ diria usted que esta satisfecho con el funcionamiento de la democracia en el pais?
 find_var(data= Latinobarometro_2023_Esp_v1_0,"P11STGBS.A")
 
+#Muy satisfecho ........... 1  
+#Más bien satisfecho ...... 2 
+#No muy satisfecho ........ 3 
+#Nada satisfecho .......... 4
 
-#P35NA. (MOSTRAR TARJETA 11) Pensando en la mejor forma de gobernar para Ud., ¿cuál de estos aspectos considera usted el más importante?
-#Concentrar el poder político en un líder ... 1 1
-#Distribuir el poder en varias instituciones 2 2
-#Que la prensa no cuestione el poder ........ 3 3
-#Garantizar las libertades políticas de
-#los ciudadanos 4 4
-find_var(data=Latinobarometro_2023_Esp_v1_0,"P35NA")
+#perspectiva economicas actuales (promediar estas para analisis posteriores)
+find_var(Latinobarometro_2023_Esp_v1_0,"P5STGBS") 
+#¿Cómo calificaría en general la situación económica actual del país? Diría Ud. que es... (LEA ALTERNATIVAS Y MARQUE UNA)
+#Muy buena ................ 1
+#Buena .................... 2
+#Regular .................. 3
+#Mala ..................... 4
+#Muy mala ................. 5_________
+#NO LEER No sabe .......... 8
+#NO LEER No responde ...... 0
+find_var(data=Latinobarometro_2023_Esp_v1_0,"P6STGBS") 
+#¿Considera Ud. que la situación económica actual del país está mucho mejor, un poco mejor, igual, un poco peor, o mucho peor que hace doce meses? (ESPERE RESPUESTA Y MARQUE UNA)
+# Mucho mejor .............. 1
+# Un poco mejor ............ 2
+# Igual .................... 3
+# Un poco peor ............. 4
+# Mucho peor ............... 5________
+# NO LEER No sabe .......... 8
+# NO LEER No responde ...... 0
 
-#Corrupción
-find_var(data=Latinobarometro_2023_Esp_v1_0,"P60ST") 
 
-# Sobre los impuestos
-find_var(data =Latinobarometro_2023_Esp_v1_0,"P22ST")
+# variables del sistema politico 
 
+#variables confianza institucional
 #confianza en gobierno
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.E")
-
 #Confianza Congreso
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.D")
-
 #Confianza Bancos
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P14ST.F")
-
 #Confianza poder judicial
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P13ST.F")
+#identificACION: Estas variables van de 1 a 4 , siendo 1 mucha confianza, 2 algo, 
+# 3 poca y 4 ninguna
 
-#Desempeño Gobierno aprueba/no aprueba ##DE AQUI A ABAJO SON VARIABLES DE DESEMPEÑO GOBIERNO
+
+#variables corrupción 
+
+#acabar con la Corrupción
+find_var(data=Latinobarometro_2023_Esp_v1_0,"P60ST") 
+#Mucho ................. 1
+#Algo .................. 2
+#Poco .................. 3
+#Nada .................. 4
+
+
+
+#Desempeño Gobierno 
+#aprueba/no aprueba ##DE AQUI A ABAJO SON VARIABLES DE DESEMPEÑO GOBIERNO
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P15STGBS")
+# Aprueba .................................. 1
+# No aprueba ............................... 2
 
-#la mejor forma dw gobernar es hay 4 opciones
-find_var(data =Latinobarometro_2023_Esp_v1_0,"P35NA")
-
-#Acuero o desacuerdo en que poder judicial sea independiente
-find_var(data =Latinobarometro_2023_Esp_v1_0,"P18N.E")
 
 ### DE AQUI ABAJO VARIABLES DERECHOS que llamaremos "estado de derecho"
 #protecion propiedad privada
-find_var(data =Latinobarometro_2023_Esp_v1_0,"P41ST.D")
+find_var(data =Latinobarometro_2023_Esp_v1_0,"P41ST.D") 
+
+# Completamente garantizadas ..... 1
+#Algo garantizadas .............. 2
+#Poco garantizadas .............. 3
+#Para nada garantizadas ......... 4
 
 #proteccion contra el crimen
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P41ST.J")
 
-###VARIABLES ECONOMICAS NUEVAS
+# Completamente garantizadas .... 1
+#Algo garantizadas .............. 2
+#Poco garantizadas .............. 3
+#Para nada garantizadas ......... 4
+
+
+###VARIABLE expectativa pais
 # Imagen progreso del pais
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P2ST")
+#Está progresando ......... 1
+#Está estancado ........... 2
+#Está en retroceso ........ 3 
 
-###vARIABLE PROTESTAS SOCIALES = CONFLICTO
+###vARIABLE CONFLICTO
 find_var(data =Latinobarometro_2023_Esp_v1_0,"P54N.A")
-
-###inestabilidad regimen politico
-#a favor o encontra de apoyar un regimen militar
-find_var(data= Latinobarometro_2023_Esp_v1_0,"P20STM") 
+#grado de acuerdo con las protestas 
+# muy de acuerdo 1
+# acuerdo 2
+# desacuerdo 3
+# muy desacuerdo 4
 
 # No me importaria que un gobiernon no democratico llegara al poder MA,A,D,MD,NS/NR      
 find_var(data= Latinobarometro_2023_Esp_v1_0,"P18STM.B")
 
+
+###inestabilidad regimen politico
+# a favor o encontra de apoyar un regimen militar
+find_var(data= Latinobarometro_2023_Esp_v1_0,"P20STM")
+
+#Apoyaría a un gobierno militar en reemplazo
+#del gobierno democrático, si las cosas se
+#ponen muy difíciles ......................... 1
+
+#En ninguna circunstancia apoyaría a un
+#gobierno militar ............................ 2
+
+
+
 # Finalmente se visita documentación de la bbdd para seleccionar variables
 
 #BBDD inversion extranjera------------------------------------------------------
+
 
 find_var(data = inversion_extranjera,"indicator")
 
@@ -154,19 +207,15 @@ proc_data <- Latinobarometro_2023_Esp_v1_0 %>%
   select(
     P11STGBS.B, # satisfecho con el funcionamiento de la economía
     P5STGBS,    # Situación económica actual del país
-    P54ST.B,    # satisfaccion economia de mercado
     P11STGBS.A, # Satisfecho con el funcionamiento de la democracia
     P18STM.B,   # No me importaria que un gobiernon no democratico llegara al poder MA,A,D,MD,NS/NR
-    P10STGBS,   # preferencia tipo regimen democracia, autoritarismo o no le importa
+    P6STGBS,    #perspectiva economia actual con respecto al año anterio
     P60ST,      # Corrupción
-    P22ST,      # percepción impuestos ¿es justo o no?
     P13ST.E,    #Confianza en el gobierno
     P13ST.D,    #Confianza en el Congreso
     P14ST.F,    #Confianza en Bancos
     P13ST.F,    #Confianza poder judicial
     P15STGBS,   # apruebo/no aprueba desempeño del gobierno
-    P35NA,      #mejor forma de gobernar 4 opciones
-    P18N.E,     #Acuerdo o desacuerdo en que poder judicial se independiente
     P41ST.D,    #Protección propiedad privada
     P41ST.J,    #Protección contra el crimen
     P2ST,       #imagen progreso del pais
@@ -194,25 +243,21 @@ View(proc_data) # se comprueba bbddd creada
 # -1 no responde
 
 frq(proc_data$P11STGBS.B) # -2 y -1 para NA
-frq(proc_data$P22ST) # -2 y -1 para NA
 frq(proc_data$P5STGBS) # -2 y -1 para NA
 frq(proc_data$P60ST) # -2 y -1 para NA
-frq(proc_data$P54ST.B) # -5 para NA
 frq(proc_data$P11STGBS.A)#-2 y -1 para NA
 frq(proc_data$P18STM.B)# -5 para NA
-frq(proc_data$P10STGBS)#-2 y -1 para NA
 frq(proc_data$P13ST.E) #-2 y -1 para NA
 frq(proc_data$P13ST.D) # -2 y -1 para NA
 frq(proc_data$P14ST.F) # -2 y -1 para NA
 frq(proc_data$P13ST.F) # -2 y -1 para NA
 frq(proc_data$P15STGBS) # - 5 para NA
-frq(proc_data$P35NA) #-2 y -1 para NA
-frq(proc_data$P18N.E) # -5 para NA
 frq(proc_data$P41ST.D) # -5 para NA
 frq(proc_data$P41ST.J) # -5 para NA
 frq(proc_data$P2ST) #-2 y -1 para NA
 frq(proc_data$P54N.A) # -5 para NA
 frq(proc_data$P20STM) #-2 y .1 para NA
+frq(proc_data$P6STGBS) #-2 y -1 para NA
 
 #Transformación de -5, -2 y -1 a NA para todas las variables
 proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
@@ -222,19 +267,15 @@ proc_data <- proc_data %>% set_na(., na = c(-5, -2, -1))
 proc_data <- proc_data %>% 
   rename("fun_econ" = P11STGBS.B, # satisfaccion func. economia
          "econ_act" = P5STGBS, #economia actual pais
-         "econ_mercado" = P54ST.B, # satisfacción economia de mercado
+         "econ_act_anipas" = P6STGBS, # economia actual con respecto año pasado
          "fun_demo"= P11STGBS.A, # satisfaccion func. democracia
          "gob_nodemo"= P18STM.B, # No me importaria que un gobiernon no democratico llegara al poder
-         "pref_reg"= P10STGBS, # Preferencia tipo regimen democratico vs autorirario
          "percep_corrup" = P60ST, # percepción corrupción
-         "per_impuestos" = P22ST, #percepcion sobre evacion impuestos
          "conf_gob"= P13ST.E, #Confianza en el gobierno
          "conf_cong"= P13ST.D, #Confianza en el Congreso
          "conf_banc"= P14ST.F, #Confianza en Bancos
          "con_judicial"= P13ST.F,#Confianza poder judicial
          "desem_gob" = P15STGBS, # apruebo/no aprueba desempeño del gobierno
-         "forma_gob" = P35NA, #forma de goberna existen cuatro respuestas:Concentrar el poder político en un líder,Distribuir el poder en varias instituciones,Que la prensa no cuestione el poder,Garantizar las libertades políticas de los ciudadanos
-         "indep_judicial" = P18N.E, #Acuerdo o desacuerdo en que poder judicial se independiente 
          "prot_privada"= P41ST.D, #Protección propiedad privada
          "prot_crimen"= P41ST.J, #Protección crimen
          "imagen_prog_pais"= P2ST, #imagen progreso del pais
@@ -278,7 +319,6 @@ stargazer(data_final, type = "text")
 
 
 save(data_final, file = "Output/data-proc/data_final")
-view(data)
 
 
 # Tabla -------------------------------------------------------------------
@@ -286,6 +326,7 @@ view(data)
 #limpieza de base de datos 
 rm(inversion_extranjera_directa)
 rm(proc_data)
+rm(Latinobarometro_2023_Esp_v1_0)
 #Abrimos la libreria para realizar graficos
 pacman::p_load(dplyr, # Manipulacion datos
                sjmisc, # Descriptivos
@@ -352,7 +393,7 @@ pacman::p_load(dplyr, # Manipulacion datos
 options(scipen = 999) # para desactivar notacion cientifica
 
 rm(data_numeric)
-cor(data_final, use = "complete.obs")
+cor(correlation_matrix, use = "complete.obs")
 corrplot.mixed(correlation_matrix)
 
 #forma 1 de representar correlación entre variables
@@ -367,18 +408,9 @@ sjPlot::tab_corr(data_numeric,
 
 corrplot.mixed(correlation_matrix)
 
-# tercera forma de representar correlación entre variables
-data_final <- data_final %>%
-  rowwise() %>%
-  mutate( inv_ext_dir= sum(c(fun_demo, fun_econ), na.rm = TRUE))
-
-
-
-ggpairs(correlation_matrix)
-
 
 # Cuarta forma es con el grafico de puntos
-sjPlot::plot_scatter(data_final,idenpa,inv_ext_dir)
+sjPlot::plot_scatter(bb_dd,percepcion_politico_econ,confianza_inst)
 
 # prueba de consistencia interna------------------------------------
 
@@ -389,4 +421,113 @@ psych::alpha(data_numeric)
 
 result <- psych::alpha(data_numeric, check.keys = TRUE)
 print(result)
+#creacion de indices -------
+
+#abrimos la libreria para establecer correlaciones
+pacman::p_load(sjlabelled,
+               dplyr, #Manipulacion de datos
+               stargazer, #Tablas
+               sjmisc, # Tablas
+               summarytools, # Tablas
+               kableExtra, #Tablas
+               sjPlot, #Tablas y gráficos
+               corrplot, # Correlaciones
+               sessioninfo, # Información de la sesión de trabajo
+               ggplot2,
+               tidyverse, #Conjunto de paquetes, sobre todo dplyr y ggplot2
+               car, #Para recodificar
+               haven,
+               summarytools, #Para descriptivos
+               sjmisc,
+               psych     # para Alfa de Chronbach
+)
+
+
+options(scipen = 999) # para desactivar notacion cientifica
+rm(list = ls()) # para limpiar el entorno de trabajo
+
+load("Output/data-proc/data_final")
+view(dfSummary(data_final, headings=FALSE, graph.col = FALSE))
+
+
+#creacion de dimensiones en base a los 16 indicadores seleccionados-------------
+
+indicadores_estabilidad <- data_final %>% select(fun_econ,
+                                                 econ_act,
+                                                 econ_act_anipas,
+                                                 fun_demo,
+                                                 gob_nodemo, 
+                                                 percep_corrup,  # percepción corrupción
+                                                 conf_gob, #Confianza en el gobierno
+                                                 conf_cong, #Confianza en el Congreso
+                                                 conf_banc, #Confianza en Bancos
+                                                 con_judicial,#Confianza poder judicial
+                                                 desem_gob,  # apruebo/no aprueba desempeño del gobierno
+                                                 prot_privada, #Protección propiedad privada
+                                                 prot_crimen, #Protección crimen
+                                                 imagen_prog_pais, #imagen progreso del pais
+                                                 grad_protesta, #grado acuerdo con protestas
+                                                 apoyo_gob_militar, # a favor o encontra de apoyar un regimen militar
+                                                 idenpa,
+                                                 anos_pais,
+                                                 inv_ext_dir)
+na.omit() %>% # Eliminar Na's
+  mutate_all(~(as.numeric(.))) # Convertimos todas las variables a numéricas
+# creamos 6 dimensiones para explicar la inversion extranejera indicadores para explicar la inversión extranjera en 
+indicadores_estabilidad = indicadores_estabilidad %>%  
+rowwise() %>% 
+  mutate(confianza_inst= mean(c(conf_gob,conf_cong,conf_banc,con_judicial)),
+         percepcion_econ=mean(c(econ_act,econ_act_anipas)),
+         conflic_social=mean(c(grad_protesta,gob_nodemo)),
+         estado_derecho=mean(c(prot_privada,prot_crimen)),
+         imagen_progreso_pais=mean(c(imagen_prog_pais)),
+         corrupcion=mean(c(percep_corrup)),
+         desempeño_gobierno=mean(c(desem_gob)),
+         inestabilidad_reg=mean(c(apoyo_gob_militar)),
+         percepcion_politico_econ=mean(c(fun_demo,fun_econ))) %>% ungroup() 
+
+
+
+
+
+
+
+
+
+#base de datos definitiva con un promedio entra las variables seleccionadas
+ bb_dd <- indicadores_estabilidad %>% select(confianza_inst,
+                                             percepcion_econ,
+                                             conflic_social,
+                                             estado_derecho,
+                                             imagen_progreso_pais,
+                                             corrupcion,
+                                             desempeño_gobierno,
+                                             inestabilidad_reg,
+                                             percepcion_politico_econ,
+                                             inv_ext_dir,
+                                             idenpa,
+                                             anos_pais)
+ 
+ data_numerica <- select(bb_dd, where(is.numeric))
+ 
+ cor(data_numerica)
+
+ save(bb_dd, file = "Output/data-proc/bb_dd")
+#para acceder a la base de datos nueva usar:
+ load("Output/data-proc/bb_dd")
+ 
+
+# resumen 
+summary(bb_dd$inv_ext_dir) # Resumensummary indicadores inversión extranjera
+#preguntar al profesor que no me queda claro la construccion de indices
+#el promedio de inversion extranjera es 10483.8 millones de dolares
+
+
+#estimacion modelos de regresión:-----------------------------------------------
+
+pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
+#abrimos librerias y limpiamos entorno de trabajo 
+rm(data_final)
+
+
 

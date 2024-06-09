@@ -75,7 +75,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#correlación-entre-variables" id="toc-correlación-entre-variables" class="nav-link" data-scroll-target="#correlación-entre-variables"><span class="header-section-number">3.1</span> correlación entre variables</a></li>
   </ul></li>
-  <li><a href="#construcción-indices" id="toc-construcción-indices" class="nav-link" data-scroll-target="#construcción-indices"><span class="header-section-number">4</span> construcción indices</a></li>
+  <li><a href="#estimacion-de-regresiones." id="toc-estimacion-de-regresiones." class="nav-link" data-scroll-target="#estimacion-de-regresiones."><span class="header-section-number">4</span> Estimacion de regresiones.</a></li>
   </ul>
 </nav>
 </div>
@@ -465,13 +465,123 @@ Your package installed</code></pre>
 <p>En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo, no encontramos relaciones entre las variables que nos permitan hablar de un impacto significativo en la inversion extranjera, la unica variable que afecta a la inversion extranjera pero de forma poco significativa es la evaluación del desempeño del gobierno, donde esta ultima explica en un 12% la caida de la inversion extranjera directa de los paises.</p>
 </section>
 </section>
-<section id="construcción-indices" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> construcción indices</h1>
+<section id="estimacion-de-regresiones." class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Estimacion de regresiones.</h1>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="quarto_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Aqui podemos ver las variables con mayor correlación y encontramos que la percepcion politico economica y la confianza tienen correlaciones fuertes, mientras que para la variable que buscamos explicar “la inversión extranjera” la unica variable con una correlacion, aunque bastante debil es desempeño del gobierno. a continiacion crearemos regreciones lineales con ambas variables para ver si es posible crear un modelo de regresión lineal capaz de explicar la relacion entre las variables seleccionadas.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="quarto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A continuación podemos ver dos modelos de regresión y sus respectivas asociaciones, para el caso del desempeño de los gobiernos de turno y la cantidad de inversión extranjera vemos una asociacion negativa. mientras que en el segundo modelo presentado vemos que la asociacion entre la percepción politica economica y la confianza institucional es positiva.</p>
+<p>a continuación se presentan los respectivos modelos de regresión lineal y sus interpretaciones:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;color: #000000;border-top: 2px solid #000000;"&gt;
+&lt;caption&gt;inversión extranjera directa&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th style="padding-left: 5px;padding-right: 5px;"&gt;Modelo 1&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr style="border-top: 1px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Intercepto&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;16370.44&lt;sup&gt;&amp;#42;&amp;#42;&amp;#42;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;(419.31)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;desempeño gobierno&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;-3685.19&lt;sup&gt;&amp;#42;&amp;#42;&amp;#42;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;(250.94)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style="border-top: 1px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;0.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Adj. R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;0.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style="border-bottom: 2px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Num. obs.&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;13360&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="font-size: 0.8em;" colspan="2"&gt;*** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+</div>
+</div>
+<p>Empezamos por el primer modelo de regresión lineal en el que relacionamos la variable de desempeño del gobierno y su impacto en la inversión, es decir, el desempeño del gobierno en este modelo actua como predictor de la inversión extranjera. Este modelo tiene un coeficiente de regresión de -3685 lo que quiere decir que por cada unidad que aumente el desempeño del gobierno, la inversion extranjera decaera en 3685 millones de dolares. por otro lado el intercepto quiere decir que cuando el desempeño es cero o digamos no se toma en cuenta la inversion extranjera tendría un valor de 16370.44 millones de dolares, ahora bien este modelo segun el R2solo logra explicar 2% de la varianza de la variable dependiente(inversión extranjera) por lo que no es muy significativo.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;color: #000000;border-top: 2px solid #000000;"&gt;
+&lt;caption&gt;confianza institucional&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th style="padding-left: 5px;padding-right: 5px;"&gt;Modelo 2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr style="border-top: 1px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Intercepto&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;1.44&lt;sup&gt;&amp;#42;&amp;#42;&amp;#42;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;(0.02)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;percepcion politico economica&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;0.48&lt;sup&gt;&amp;#42;&amp;#42;&amp;#42;&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;(0.01)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style="border-top: 1px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;0.27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Adj. R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;0.27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style="border-bottom: 2px solid #000000;"&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;Num. obs.&lt;/td&gt;
+&lt;td style="padding-left: 5px;padding-right: 5px;"&gt;13360&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style="font-size: 0.8em;" colspan="2"&gt;*** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+</div>
+</div>
+<p>En este segundo modelo de regresión lineal las variables a asociar son la percepción politico economica con la confianza institucional, en donde encontramos que nuestro predictor es la percepcion politico economica. a partir del modelo anteriormente expuesto podemos concluir: que el coeficiente de regresión es 0.48, lo que quiere decir que, por cada unidad que aumenta la percepción politico economica, la confianza institucional aumentara en un 0.48%. ahora bien en cuanto al R2 este nos dice que este modelo logra explicar un 27% de la varianza de la variable dependiente(confianza institucional).</p>
 
 </section>
 

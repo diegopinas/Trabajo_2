@@ -185,7 +185,7 @@ ggpairs(correlation_matrix)
 
 En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo, no encontramos relaciones entre las variables que nos permitan hablar de un impacto significativo en la inversion extranjera, la unica variable que afecta a la inversion extranjera pero de forma poco significativa es la evaluación del desempeño del gobierno, donde esta ultima explica en un 12% la caida de la inversion extranjera directa de los paises.
 
-# construcción indices
+# Estimacion de regresiones.
 
 ```{r echo=FALSE}
 pacman::p_load(sjlabelled,
@@ -199,6 +199,69 @@ pacman::p_load(sjlabelled,
               sessioninfo, # Información de la sesión de trabajo
               ggplot2,
               GGally)
-sjPlot::plot_scatter(data_final,desem_gob,inv_ext_dir)
+pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
+#abrimos librerias y limpiamos entorno de trabajo 
+load("Output/data-proc/bb_dd")
+M <- cor(data_numerica , use = "complete.obs") # Usar solo casos con observaciones completas
+diag(M)= NA
+corrplot::corrplot(M,
+                   method = "color", # Cambia los círculos por color completo de cada cuadrante
+                   addCoef.col = "#000390", # Color de los coeficientes
+                   type = "upper", # Deja solo las correlaciones de arriba
+                   tl.col = "black", # COlor letras, rojo por defecto
+                   na.label = "-")
 
 ```
+
+Aqui podemos ver las variables con mayor correlación y encontramos que la percepcion politico economica y la confianza tienen correlaciones fuertes, mientras que para la variable que buscamos explicar "la inversión extranjera" la unica variable con una correlacion, aunque bastante debil es desempeño del gobierno. a continiacion crearemos regreciones lineales con ambas variables para ver si es posible crear un modelo de regresión lineal capaz de explicar la relacion entre las variables seleccionadas.
+
+```{r echo=FALSE}
+pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
+
+#Grafico x1 = ACT
+graph1 <- ggplot(bb_dd, aes(x = desempeño_gobierno, y = inv_ext_dir)) +
+  geom_point(size = 1) +  # Puntos
+  geom_smooth(method = "lm", se = FALSE) +  # Recta de regresión
+  labs(x = "desempeño gobierno", y = "inversión extranjera directa")  # Etiquetas de ejes
+
+# Gráfico 2
+graph2 <- ggplot(bb_dd, aes(x = percepcion_politico_econ, y = confianza_inst)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "percepcion politico-economica", y = "confianza institucional")
+ggarrange(graph1, graph2, nrow = 1) # Unir graficos
+
+```
+
+A continuación podemos ver dos modelos de regresión y sus respectivas asociaciones, para el caso del desempeño de los gobiernos de turno y la cantidad de inversión extranjera vemos una asociacion negativa. mientras que en el segundo modelo presentado vemos que la asociacion entre la percepción politica economica y la confianza institucional es positiva.
+
+a continuación se presentan los respectivos modelos de regresión lineal y sus interpretaciones:
+
+```{r echo=FALSE}
+pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
+
+reg1 <- lm(inv_ext_dir ~ desempeño_gobierno, data=bb_dd)
+knitreg(list(reg1),
+        custom.model.names = c("Modelo 1"),
+        custom.note = "*** p < 0.001; ** p < 0.01; * p < 0.05",
+        custom.coef.names = c("Intercepto", 
+                              "desempeño gobierno"),
+        caption = "inversión extranjera directa",
+        caption.above = TRUE)
+```
+
+Empezamos por el primer modelo de regresión lineal en el que relacionamos la variable de desempeño del gobierno y su impacto en la inversión, es decir, el desempeño del gobierno en este modelo actua como predictor de la inversión extranjera. Este modelo tiene un coeficiente de regresión de -3685 lo que quiere decir que por cada unidad que aumente el desempeño del gobierno, la inversion extranjera decaera en 3685 millones de dolares. por otro lado el intercepto quiere decir que cuando el desempeño es cero o digamos no se toma en cuenta la inversion extranjera tendría un valor de 16370.44 millones de dolares, ahora bien este modelo segun el R2solo logra explicar 2% de la varianza de la variable dependiente(inversión extranjera) por lo que no es muy significativo.
+
+```{r echo=FALSE}
+pacman::p_load(dplyr, car, sjmisc, sjPlot, sjlabelled, stargazer, kableExtra, corrplot, texreg, ggplot2, ggpubr)
+reg2<- lm(confianza_inst~percepcion_politico_econ  , data=bb_dd)
+knitreg(list(reg2),
+        custom.model.names = c("Modelo 2"),
+        custom.note = "*** p < 0.001; ** p < 0.01; * p < 0.05",
+        custom.coef.names = c("Intercepto", 
+                              "percepcion politico economica"),
+        caption = "confianza institucional",
+        caption.above = TRUE)
+```
+
+En este segundo modelo de regresión lineal las variables a asociar son la percepción politico economica con la confianza institucional, en donde encontramos que nuestro predictor es la percepcion politico economica. a partir del modelo anteriormente expuesto podemos concluir: que el coeficiente de regresión es 0.48, lo que quiere decir que, por cada unidad que aumenta la percepción politico economica, la confianza institucional aumentara en un 0.48%. ahora bien en cuanto al R2 este nos dice que este modelo logra explicar un 27% de la varianza de la variable dependiente(confianza institucional).
