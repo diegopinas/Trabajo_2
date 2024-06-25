@@ -133,8 +133,8 @@ load("Output/data-proc/bb_dd")
 
 data_numerica <- select(bb_dd, where(is.numeric)) # pasamos la base de dato a numerica para realizar analisis
 
-sjPlot::plot_scatter(data_numerica,percepcion_politico_econ,confianza_inst)
-
+graficocon<-sjPlot::plot_scatter(data_numerica,percepcion_politico_econ,confianza_inst)
+ggsave(graficocon,file="Output/graphics/graficocon.png")
 
 ```
 
@@ -235,8 +235,10 @@ graph2 <- ggplot(bb_dd, aes(x = percepcion_politico_econ, y = confianza_inst)) +
   geom_point(size = 1) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "percepcion politico-economica", y = "confianza institucional")
-ggarrange(graph1, graph2, nrow = 1) # Unir graficos
+graph3<-ggarrange(graph1, graph2, nrow = 1) # Unir graficos
 
+ggsave(graph2,file="Output/graphics/graph2.png")
+ggsave(graph3,file="Output/graphics/graph3.png")
 ```
 
 A continuación podemos ver dos modelos de regresión y sus respectivas asociaciones, para el caso del desempeño de los gobiernos de turno y la cantidad de inversión extranjera vemos una asociacion negativa. mientras que en el segundo modelo presentado vemos que la asociacion entre la percepción politica economica y la confianza institucional es positiva.
@@ -254,6 +256,7 @@ knitreg(list(reg1),
                               "desempeño gobierno"),
         caption = "inversión extranjera directa",
         caption.above = TRUE)
+ggsave("reg1,file=Output/graphics/reg1.png")
 ```
 
 Empezamos por el primer modelo de regresión lineal en el que relacionamos la variable de desempeño del gobierno y su impacto en la inversión, es decir, el desempeño del gobierno en este modelo actua como predictor de la inversión extranjera. Este modelo tiene un coeficiente de regresión de -3685 lo que quiere decir que por cada unidad que aumente el desempeño del gobierno, la inversion extranjera decaera en 3685 millones de dolares. por otro lado el intercepto quiere decir que cuando el desempeño es cero o digamos no se toma en cuenta la inversion extranjera tendría un valor de 16370.44 millones de dolares, ahora bien este modelo segun el R2solo logra explicar 2% de la varianza de la variable dependiente(inversión extranjera) por lo que no es muy significativo.

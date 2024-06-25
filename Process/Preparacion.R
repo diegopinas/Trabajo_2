@@ -560,5 +560,37 @@ knitreg(list(reg1),
                               "desempeño gobierno"),
         caption = "inversión extranjera directa",
         caption.above = TRUE)
-        
+#grafico para presentación final
+# Cargar las librerías necesarias
+library(ggplot2)
+library(ggeffects)
+
+# Suponiendo que reg1 es tu modelo de regresión
+
+
+# Crear el gráfico
+predictions <- ggeffects::ggpredict(reg1, terms = "desempeño_gobierno")
+
+grafico4<-ggplot(predictions, aes(x = x, y = predicted)) +
+  labs(title = "Desempeño Gobierno", x = "Desempeño Gobierno", y = "Predicted") +
+  theme_bw() +
+  geom_smooth() +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .2, fill = "black") +
+  scale_x_continuous(breaks = seq(min(predictions$x), max(predictions$x), by = 1)) + # Ajusta según tu rango de datos
+  scale_y_continuous(limits = c(-100.91, 53889.96), 
+                     breaks = seq(-100, 54000, by = 5000)) # Ajusta según tu rango de datos
+
+
+ggsave(grafico4,file="Output/graphics/grafico4.png")
+##grafico 2
+
+ggplot(predictions, aes(x = x, y = predicted)) +
+  labs(title = "Desempeño Gobierno", x = "Desempeño Gobierno", y = "Predicted") +
+  theme_bw() +
+  geom_smooth() +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .2, fill = "black") +
+  scale_x_continuous(breaks = seq(min(predictions$x), max(predictions$x), by = 1)) + # Ajusta según tu rango de datos
+  scale_y_continuous(limits = c(-, 53889.96), 
+                     breaks = seq(-100, 54000, by = 5000))
+
         
