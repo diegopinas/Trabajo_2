@@ -29,7 +29,7 @@ Esta investigación fue realizada con datos de latinobarometro(2023) y los datos
 
 ## Descriptivos
 
-![](output/graphics/grafrico2.png)
+![](Output/graphics/grafrico2.png)
 
 ## regresiones
 
@@ -39,7 +39,7 @@ El gráfico muestra que existe una leve correlacion entre el desempeño del gobi
 :::
 
 ::: {.column width="50%"}
-![](output/graphics/graph3.png)
+![](Output/graphics/graph3.png)
 :::
 :::
 
@@ -51,7 +51,7 @@ En este modelo de regresión lineal relacionamos la variable de desempeño del g
 :::
 
 ::: {.column width="50%"}
-![](output/graphics/grafico4.png)
+![](Output/graphics/grafico4.png)
 :::
 :::
 
