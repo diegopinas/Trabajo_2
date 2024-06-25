@@ -72,11 +72,17 @@ pacman::p_load(sjlabelled,
 
 load("Output/data-proc/bb_dd")
 
+grafrico2<-ggplot(bb_dd,aes(x =idenpa, y =inv_ext_dir))+
+  geom_point()+
+labs(x="pais",y="inversion extranjera directa")+
+theme(axis.text.x = element_text(size = 4),
+      axis.text.y = element_text(size = 3) )
 ggplot(bb_dd,aes(x =idenpa, y =inv_ext_dir))+
   geom_point()+
 labs(x="pais",y="inversion extranjera directa")+
 theme(axis.text.x = element_text(size = 4),
       axis.text.y = element_text(size = 3) )
+save_plot("Output/graphics/grafrico2.png")
 
 ```
 
@@ -178,9 +184,9 @@ data_numerica <- select(bb_dd, where(is.numeric)) # pasamos la base de dato a nu
 correlation_matrix <- cor(data_numerica)
 
 
-ggpairs(correlation_matrix)
+grafico1<-ggpairs(correlation_matrix)
 
-  
+  ggsave(grafico1,file="Output/graphics/grafico1.png")
 ```
 
 En el presente grafico podemos ver la correlación entre las distintas variables y sus grados de significancia, sin embargo, no encontramos relaciones entre las variables que nos permitan hablar de un impacto significativo en la inversion extranjera, la unica variable que afecta a la inversion extranjera pero de forma poco significativa es la evaluación del desempeño del gobierno, donde esta ultima explica en un 12% la caida de la inversion extranjera directa de los paises.

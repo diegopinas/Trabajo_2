@@ -1,0 +1,65 @@
+---
+title: "El riesgo politico en latinoamerica y su posible impacto en la inversion extranjera"
+author: "Diego Martínez"
+format:
+  revealjs: 
+    theme: league
+editor: visual
+title-slide-attributes:
+    data-background-image: Input/Divisas-internacionales.jpg
+bibliography: Tesis-riesgo-político.bib
+link-citations: true 
+---
+
+# Introducción
+
+El objetivo de este trabajo es ver el impacto del riesgo político en las inversiones extranjeras en Chile y latinoamerica. "un concepto que cubre aquellos factores de riesgo para las empresas internacionales que están arraigados en el entorno político e institucional de un país pero que tienen consecuencias inmediatas en el desempeño de la empresa ."[@johannesleitnerPoliticalRisksPostSoviet2016]
+
+## Descriptivos
+
+::: columns
+::: {.column width="50%"}
+Esta investigación fue realizada con datos de latinobarometro(2023) y los datos sobre el fujo de inversion extranjera fue extraida de la CEPAL en su sitio web CEPALSTAT que entrega la cantidad de inversión extranjera directa medida en millones de dolares.
+:::
+
+::: {.column width="50%"}
+![](Output/graphics/graficocon.png)
+:::
+:::
+
+## Descriptivos
+
+![](output/graphics/grafrico2.png)
+
+## regresiones
+
+::: columns
+::: {.column width="50%"}
+El gráfico muestra que existe una leve correlacion entre el desempeño del gobierno y la inversión extranjera y una alta correlaccion entre la confianza institucional y la percepción politico economica
+:::
+
+::: {.column width="50%"}
+![](output/graphics/graph3.png)
+:::
+:::
+
+## regresiones
+
+::: columns
+::: {.column width="50%"}
+En este modelo de regresión lineal relacionamos la variable de desempeño del gobierno y su impacto en la inversión, el modelo tiene un coeficiente de regresión de -3685 lo que quiere decir que por cada unidad que aumente el desempeño del gobierno, la inversion extranjera decaera en 3685 millones de dolares.
+:::
+
+::: {.column width="50%"}
+![](output/graphics/grafico4.png)
+:::
+:::
+
+## Conclusiones
+
+::: incremental
+-   En esta investigación quisimos hacer un estudio politico comparado [@pasquino2014] y demostrar que las variables politicas afectan la inversión extranjera en latinoamerica.
+-   Nuestros principales resultados indican que existe una correlacion baja entre la inversión extranjera y la evaluacion del desempeño del gobierno, ya que la correlación de las variables es del 12% y según R2 logra explicar 2% de la varianza de la variable dependiente(inversión extranjera) lo que no es muy significativo. y suguiere que otras variables podrían explicar mejor a la inversión extranjera.
+:::
+
+## Referencias
